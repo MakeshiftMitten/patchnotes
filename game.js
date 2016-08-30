@@ -43,6 +43,7 @@ function gameObject(){
     this.buttons = [];
     this.meters = [];
     
+    this.pillars = [];
     this.players = [];
     this.boxes = [];
     this.coordinates = [];
@@ -50,7 +51,10 @@ function gameObject(){
     this.followBots = [];
 
     this.drawType = "player";
-    
+
+    this.bulletManager = new bulletManager();
+    this.enemyManager = new enemyManager();
+
     //Timers
     
     //Game Objects            
@@ -69,6 +73,9 @@ function gameObject(){
             this.coordinates.push(new coordinate(x, -x));
         }
 
+        this.pillars.push(new pillar(30, 35, 30, 30, 0));
+
+        this.enemyManager.addEnemy(new followBot(10, 10));
         //this.followBots.push(new followBot(10, 10));
 
         //Add Meters         

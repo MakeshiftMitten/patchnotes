@@ -13,10 +13,45 @@ function playerFloorHit(player, floor)
 
     return isVerticalCollision&&isHorizontalCollision;
 }
-                
+     
+
+function pointInRectangle(point, rectangle)
+{
+    //console.log(point.x + " " + point.y);
+    //console.log(rectangle.left() + " " + rectangle.right() + " " + rectangle.top() + " " + rectangle.bottom());
+    if(point.x >= rectangle.left() && point.x <= rectangle.right() 
+        && point.y >= rectangle.bottom() && point.y <= rectangle.top())
+        return true;
+    return false;
+
+}
+
+function pointInRectangleX(point, rectangle)
+{
+    //console.log(point.x + " " + point.y);
+    //console.log(rectangle.left() + " " + rectangle.right() + " " + rectangle.top() + " " + rectangle.bottom());
+    if(point.x >= rectangle.left() && point.x <= rectangle.right())
+        if(point.y >= rectangle.bottom() && point.y <= rectangle.top())
+            return true;
+    return false;
+
+}
+
+function pointInRectangleY(point, rectangle)
+{
+    //console.log(point.x + " " + point.y);
+    //console.log(rectangle.left() + " " + rectangle.right() + " " + rectangle.top() + " " + rectangle.bottom());
+    if(point.y >= rectangle.bottom() && point.y <= rectangle.top())
+        if(point.x >= rectangle.left() && point.x <= rectangle.right())
+        
+        return true;
+    return false;
+
+}
+
 function rectangleHitCircle(rectangle, circle){
     
-    console.log("player: "+rectangle.width + " this.right " + rectangle.right + rectangle.height);    
+    //console.log("player: "+rectangle.width + " this.right " + rectangle.right + rectangle.height);    
 }
                 
 function rectangleHitRectangle(rectangle, rectangle){

@@ -27,15 +27,19 @@ function player(x, y){
     this.cameraCooldown = .25;
     this.cameraCooldownCurrent = 0;
 
+    this.shotCooldown = .2;
+    this.shotCooldownCurrent = 0;
+
     this.orientation = 90;
+    this.heading = this.orientation;
 
     this.state = "ship"; //ship, bot
 
     
     this.right = function(){return this.x + this.width/2;};
     this.left = function(){return this.x - this.width/2};
-    this.top = function(){return this.y - this.height/2};
-    this.bottom = function(){return this.y + this.height/2};
+    this.top = function(){return this.y + this.height/2};
+    this.bottom = function(){return this.y - this.height/2};
     
     this.printSides = function(){        
         console.log("Player Right: " + this.right() + " Left: " + this.left() + " Top" + this.top() + " Bottom" + this.bottom());
@@ -104,8 +108,10 @@ function player(x, y){
                 this.orientation-=2;
             }
                         
-            if(game.keys[87]){
-                this.velocity += this.accel*dt;
+            if(game.keys[87]){                
+                if(!game.keys[83]){
+                    this.velocity += this.accel*2*dt;
+                }
                 if (this.velocity > this.moveSpeed*2)
                     this.velocity = this.moveSpeed*2;
             }
@@ -118,6 +124,9 @@ function player(x, y){
 
             if(this.velocity < 10)
                 this.velocity += this.accel*dt;
+
+            if(!game.keys[16])
+                this.heading = this.orientation;
         }
         if(this.state == "bot")
         {
@@ -158,7 +167,10 @@ function player(x, y){
             }
             else
                 this.velocity/=1.1;
+
+            this.heading = this.orientation;
         }
+        
 
         if(game.keys[73]){
             console.log("shoot");
@@ -170,11 +182,23 @@ function player(x, y){
         var oldX = this.x;
         var oldY = this.y;
         
-        this.x += this.velX;
-        this.y += this.velY; 
+        //this.x += this.velX;
+        //this.y += this.velY; 
 
-        this.x += this.velocity * Math.cos(toRad(this.orientation))*dt + this.velStrafe * Math.cos(toRad(this.orientation - 90))*dt;
-        this.y += this.velocity * Math.sin(toRad(this.orientation))*dt + this.velStrafe * Math.sin(toRad(this.orientation - 90))*dt;  
+        this.x += this.velocity * Math.cos(toRad(this.heading))*dt + this.velStrafe * Math.cos(toRad(this.heading - 90))*dt;
+        this.y += this.velocity * Math.sin(toRad(this.heading))*dt + this.velStrafe * Math.sin(toRad(this.heading - 90))*dt;  
+
+        //Wall Hit Detection
+        if(pointInRectangle(this, game.pillars[0])){
+            if(oldX < game.pillars[0].left() && this.x > game.pillars[0].left() 
+                || oldX > game.pillars[0].right() && this.x < game.pillars[0].right())
+                this.x = oldX;
+            if(oldY < game.pillars[0].bottom() && this.y > game.pillars[0].bottom()
+                || oldY > game.pillars[0].top() && this.y < game.pillars[0].top())
+                this.y = oldY;
+        }
+
+        
     }
     
     this.updateState = function(dt){
@@ -182,7 +206,7 @@ function player(x, y){
     }
 
     this.shoot = function(){        
-        var pushBullet = new bullet(this.x, this.y, this.orientation, 100, 1);
-        game.bullets.push(pushBullet);
+        var pushBullet = new bullet(this.x, this.y, this.orientation, 100, 1, 1);
+        game.bulletManager.addBullet(pushBullet);
     }
 }

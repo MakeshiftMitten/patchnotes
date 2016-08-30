@@ -38,13 +38,9 @@ function update(dt){
         game.coordinates[c].update(dt);
     }
 
-    for(var b = 0; b < game.bullets.length; b++){        
-        game.bullets[b].update(dt);
-    }
+    game.bulletManager.update(dt);
 
-    for(var b = 0; b < game.followBots.length; b++){        
-            game.followBots[b].update(dt);
-        }
+    game.enemyManager.update(dt);
 
 }
 

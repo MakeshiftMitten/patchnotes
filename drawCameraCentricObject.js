@@ -8,7 +8,7 @@ function drawCameraCentricObject(cameraX, cameraY){
 
             //Bounding Rect    
             ctx.clearRect(0, 0, gameCanvas.width, gameCanvas.height); 
-            draw.drawFilledRectCentered(game.gameWidth/2, game.gameHeight/2, game.gameWidth, game.gameHeight, game.colors.Background);
+            draw.drawBackgroundRect(game.gameWidth/2, game.gameHeight/2, game.gameWidth, game.gameHeight, game.colors.Background);
 
             
             this.drawGrid();
@@ -25,13 +25,14 @@ function drawCameraCentricObject(cameraX, cameraY){
                 game.coordinates[b].draw();
             }
 
-            for(var b = 0; b < game.bullets.length; b++){                
-                game.bullets[b].draw();
+            for(var p = 0; p < game.pillars.length; p++){                
+                game.pillars[p].draw();
             }
 
-            for(var b = 0; b < game.followBots.length; b++){                
-                game.followBots[b].draw();
-            }
+
+            game.bulletManager.draw();
+
+            game.enemyManager.draw();
 
 
             ctx.stroke();    
@@ -55,16 +56,16 @@ function drawCameraCentricObject(cameraX, cameraY){
         ctx.strokeStyle = "#00FF00";
         ctx.fillStyle = "#00FF00";
         //(text, gameXToCanvasX(gameX + game.gameWidth/2 - cameraX), gameYToCanvasY(-gameY + game.gameHeight/2 + cameraY))        ;
-        for(var x = -50; x < 50; x++)    
+        for(var x = -10; x < 11; x++)    
         {
             ctx.beginPath();
-            ctx.moveTo(gameXToCanvasX(-500 - this.cameraX), gameYToCanvasY(x*20 + this.cameraY));
-            ctx.lineTo(gameXToCanvasX(500 - this.cameraX), gameYToCanvasY(x*20 + this.cameraY));
+            ctx.moveTo(gameXToCanvasX(-200 + game.gameWidth/2 - this.cameraX), gameYToCanvasY(x*20 + game.gameHeight/2 + this.cameraY));
+            ctx.lineTo(gameXToCanvasX(200 + game.gameWidth/2 - this.cameraX), gameYToCanvasY(x*20 + game.gameHeight/2 + this.cameraY));
             ctx.stroke();
             
             ctx.beginPath();
-            ctx.moveTo(gameXToCanvasX(x*20 - this.cameraX), gameYToCanvasY(-500 + this.cameraY));
-            ctx.lineTo(gameXToCanvasX(x*20 - this.cameraX), gameYToCanvasY(500 + this.cameraY));
+            ctx.moveTo(gameXToCanvasX(x*20 + game.gameWidth/2 - this.cameraX), gameYToCanvasY(-200 + game.gameHeight/2 + this.cameraY));
+            ctx.lineTo(gameXToCanvasX(x*20 + game.gameWidth/2 - this.cameraX), gameYToCanvasY(200 + game.gameHeight/2 + this.cameraY));
             ctx.stroke();
         }
     }
@@ -128,20 +129,37 @@ function drawCameraCentricObject(cameraX, cameraY){
 
     }
 
-    this.drawRectCentered = function(gameX, gameY, gameWidth, gameHeight, color)
+    this.drawRectCentered = function(gameX, gameY, gameWidth, gameHeight, color, fill)
     {
         
         var gameCanvas = document.getElementById('gameCanvas');
         var ctx= gameCanvas.getContext("2d");   
         ctx.save();
         ctx.beginPath();
-        ctx.rect(gameXToCanvasX(gameX-gameWidth/2), gameYToCanvasY(gameY-gameHeight/2), gameXToCanvasX(gameWidth), gameYToCanvasY(gameHeight));
+        ctx.rect(gameXToCanvasX(gameX - gameWidth/2 + game.gameWidth/2 - this.cameraX), gameYToCanvasY(-gameY - gameHeight/2 + game.gameHeight/2 + this.cameraY), gameXToCanvasX(gameWidth), gameYToCanvasY(gameHeight));
         ctx.stroke();
+        if(fill)
+            ctx.fill();
+        ctx.closePath();
+        ctx.restore();
+    }
+
+    this.drawRect = function(gameX, gameY, gameWidth, gameHeight, color, fill)
+    {
+        
+        var gameCanvas = document.getElementById('gameCanvas');
+        var ctx= gameCanvas.getContext("2d");   
+        ctx.save();
+        ctx.beginPath();
+        ctx.rect(gameXToCanvasX(gameX + game.gameWidth/2 - this.cameraX), gameYToCanvasY(-gameY + game.gameHeight/2 + this.cameraY), gameXToCanvasX(gameWidth), gameYToCanvasY(gameHeight));
+        ctx.stroke();
+        if(fill)
+            ctx.fill();
         ctx.closePath();
         ctx.restore();
     }
     
-    this.drawFilledRectCentered = function(gameX, gameY, gameWidth, gameHeight, color)
+    this.drawBackgroundRect = function(gameX, gameY, gameWidth, gameHeight, color)
     {
         var gameCanvas = document.getElementById('gameCanvas');
         var ctx= gameCanvas.getContext("2d");   
