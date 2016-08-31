@@ -5,7 +5,7 @@ function switchWeapon(event){
 
 function keyDown(event){ 
   game.keys[event.keyCode] = true;
-  console.log(event.keyCode);
+  //console.log(event.keyCode);
 }
 
 function keyUp(event){ 

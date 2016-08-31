@@ -20,8 +20,7 @@ function bullet(x, y, orientation, velocity, lifeTime){
 				if(this.isActive)
 							{	
 								if(pointInRectangle(this, game.enemyManager.enemies[x])){
-										game.enemyManager.enemies[x].onHit(10);
-										console.log("hit");
+										game.enemyManager.enemies[x].onHit(10);										
 										this.isActive = false;
 
 
@@ -33,8 +32,7 @@ function bullet(x, y, orientation, velocity, lifeTime){
 			{
 				
 							{	
-								if(pointInRectangle(this, game.pillars[x])){										
-										console.log("hit");
+								if(pointInRectangle(this, game.pillars[x])){																				
 										this.isActive = false;
 
 								

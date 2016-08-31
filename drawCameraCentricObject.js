@@ -87,13 +87,7 @@ function drawCameraCentricObject(cameraX, cameraY){
         var ship = game.players[0];
         ctx.save();
         ctx.translate(gameXToCanvasX(game.players[0].x + game.gameWidth/2 - this.cameraX ), gameYToCanvasY(-game.players[0].y + game.gameHeight/2 + this.cameraY));
-        console.log("orientation " + orientation + "radians" + toRad(orientation));
         ctx.rotate(toRad(-orientation+90));
-        //ctx.rotate(toRad(orientation - 90));
-        //ctx.strokeStyle = "#00FF00";
-        //ctx.fillStyle = "#00FF00";
-        //ctx.rect(gameXToCanvasX(game.players[0].x + game.gameWidth/2 - cameraX), gameYToCanvasY(-game.players[0].y + game.gameHeight/2 + cameraY), gameXToCanvasX(gameWidth), gameYToCanvasY(gameHeight));
-        //ctx.rect(gameXToCanvasX(game.gameWidth/2), gameYToCanvasY(game.gameHeight/2), gameXToCanvasX(gameWidth), gameYToCanvasY(gameHeight));
         ctx.beginPath();
         if(ship.state=="ship"){
             ctx.beginPath();
@@ -117,11 +111,7 @@ function drawCameraCentricObject(cameraX, cameraY){
             ctx.fill();
         }
         ctx.closePath();
-        //ctx.fill();
-        //ctx.fillText(game.players[0].x + "," + game.players[0].y, gameXToCanvasX(0), gameYToCanvasY(0))        ;    
         ctx.restore();
-
-//ctx.rect(gameXToCanvasX(game.players[0].x + game.gameWidth/2 - cameraX), gameYToCanvasY(-game.players[0].y + game.gameHeight/2 + cameraY), gameXToCanvasX(gameWidth), gameYToCanvasY(gameHeight));
 
 
         ctx.stroke();
@@ -211,4 +201,8 @@ function drawCameraCentricObject(cameraX, cameraY){
 
 function toRad(deg) {
   return deg * Math.PI / 180
+}
+
+function toDeg(rad) {
+    return rad / Math.PI * 180;
 }

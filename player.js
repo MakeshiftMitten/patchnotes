@@ -12,6 +12,7 @@ function player(x, y){
     this.accel = 20;
     this.moveSpeed = 20;
 
+    this.shotType = "MACHINEGUN";
 
     
     this.maxLife = 100;
@@ -47,8 +48,7 @@ function player(x, y){
     
     this.draw = function(){
         if(this.currentLife > 0){
-            draw.drawPlayerRect(game.gameWidth/2, game.gameHeight/2, this.width, this.height, this.orientation);   
-            draw.drawText(game.gameWidth/2, game.gameHeight/2, this.x + "," + this.y);  
+            draw.drawPlayerRect(game.gameWidth/2, game.gameHeight/2, this.width, this.height, this.orientation);               
         }
         else
             draw.drawText(game.gameWidth/2-8, game.gameHeight/2-6, "GAME OVER. PRESS R TO RESTART");
@@ -60,14 +60,19 @@ function player(x, y){
         //Update Cooldowns
         this.swapCooldownCurrent -= dt;
         this.cameraCooldownCurrent -= dt;
+        this.shotCooldownCurrent -= dt;
 
         if(game.keys[75]){
             if(this.swapCooldownCurrent <= 0)
             {
-                if(this.state =="bot")
+                if(this.state =="bot"){
                     this.state = "ship";
-                else if(this.state == "ship")
+                    this.shotType = "MACHINEGUN";
+                }
+                else if(this.state == "ship"){
                     this.state = "bot";
+                    this.shotType = "SHOTGUN";
+                }
                 this.swapCooldownCurrent = this.swapCooldown;
             }
         }
@@ -85,6 +90,12 @@ function player(x, y){
                 }
                 this.cameraCooldownCurrent = this.cameraCooldown;
             }
+        }
+
+        if(game.keys[73]){
+            if(this.shotCooldownCurrent <= 0)
+            //console.log("shoot");
+                this.shoot();
         }
 
             if(game.drawType == "player")
@@ -131,13 +142,13 @@ function player(x, y){
         if(this.state == "bot")
         {
              //A
-            if(game.keys[65]){
+            if(game.keys[74]){
                 this.velStrafe += -this.accel*20*dt;            
                 if(this.velStrafe < -this.moveSpeed)
                     this.velStrafe = -this.moveSpeed;
             }
             //D
-            else if(game.keys[68]){
+            else if(game.keys[76]){
                 this.velStrafe += this.accel*20*dt;
                 if(this.velStrafe > this.moveSpeed)
                     this.velStrafe = this.moveSpeed;
@@ -146,11 +157,11 @@ function player(x, y){
                 this.velStrafe /= 2;
 
             //A
-            if(game.keys[74]){
+            if(game.keys[65]){
                 this.orientation+=2;            
             }
             //D
-            else if(game.keys[76]){
+            else if(game.keys[68]){
                 this.orientation-=2;;
             }
                         
@@ -172,10 +183,7 @@ function player(x, y){
         }
         
 
-        if(game.keys[73]){
-            console.log("shoot");
-            this.shoot();
-        }
+
         
         this.updateState(dt);
         
@@ -189,14 +197,19 @@ function player(x, y){
         this.y += this.velocity * Math.sin(toRad(this.heading))*dt + this.velStrafe * Math.sin(toRad(this.heading - 90))*dt;  
 
         //Wall Hit Detection
-        if(pointInRectangle(this, game.pillars[0])){
-            if(oldX < game.pillars[0].left() && this.x > game.pillars[0].left() 
-                || oldX > game.pillars[0].right() && this.x < game.pillars[0].right())
-                this.x = oldX;
-            if(oldY < game.pillars[0].bottom() && this.y > game.pillars[0].bottom()
-                || oldY > game.pillars[0].top() && this.y < game.pillars[0].top())
-                this.y = oldY;
+        for(var p = 0; p < game.pillars.length; p++){
+            var pillar = game.pillars[p];
+
+            if(pointInRectangle(this, pillar)){
+                if(oldX < pillar.left() && this.x > pillar.left() 
+                    || oldX > pillar.right() && this.x < pillar.right())
+                    this.x = oldX;
+                if(oldY < pillar.bottom() && this.y > pillar.bottom()
+                    || oldY > pillar.top() && this.y < pillar.top())
+                    this.y = oldY;
+            }
         }
+        
 
         
     }
@@ -205,8 +218,21 @@ function player(x, y){
         
     }
 
-    this.shoot = function(){        
+    this.shoot = function(){    
+    if(this.shotType == "SHOTGUN"){
+        game.bulletManager.addBullet(new bullet(this.x, this.y, this.orientation, 100, .4, 1));
+        game.bulletManager.addBullet(new bullet(this.x, this.y, this.orientation-3, 100, .4, 1));
+        game.bulletManager.addBullet(new bullet(this.x, this.y, this.orientation+3, 100, .4, 1));
+        game.bulletManager.addBullet(new bullet(this.x, this.y, this.orientation-7, 100, .4, 1));
+        game.bulletManager.addBullet(new bullet(this.x, this.y, this.orientation+7, 100, .4, 1));
+        this.shotCooldownCurrent = this.shotCooldown*2;
+    }
+    else if(this.shotType == "MACHINEGUN"){
         var pushBullet = new bullet(this.x, this.y, this.orientation, 100, 1, 1);
         game.bulletManager.addBullet(pushBullet);
+        this.shotCooldownCurrent  = this.shotCooldown/2;
+    }
+
+        
     }
 }

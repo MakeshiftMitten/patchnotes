@@ -73,9 +73,26 @@ function gameObject(){
             this.coordinates.push(new coordinate(x, -x));
         }
 
-        this.pillars.push(new pillar(30, 35, 30, 30, 0));
+        this.pillars.push(new pillar(70, 40, 5, 100));
+        this.pillars.push(new pillar(-70, 40, 5, 100));
 
-        this.enemyManager.addEnemy(new followBot(10, 10));
+        this.pillars.push(new pillar(90, 40, 5, 100));
+        this.pillars.push(new pillar(-90, 40, 5, 100));
+
+        this.enemyManager.addEnemy(new followBot(this.players[0].x + 30, this.players[0].y + 60));
+        this.enemyManager.addEnemy(new followBot(this.players[0].x + 10, this.players[0].y + 60));
+        this.enemyManager.addEnemy(new followBot(this.players[0].x - 40, this.players[0].y + 60));
+        this.enemyManager.addEnemy(new followBot(this.players[0].x - 20, this.players[0].y + 60));
+
+        this.enemyManager.addEnemy(new followBot(this.players[0].x + 30, this.players[0].y - 60));
+        this.enemyManager.addEnemy(new followBot(this.players[0].x + 10, this.players[0].y - 60));
+        this.enemyManager.addEnemy(new followBot(this.players[0].x - 40, this.players[0].y - 60));
+        this.enemyManager.addEnemy(new followBot(this.players[0].x - 20, this.players[0].y - 60));
+
+        this.enemyManager.addEnemy(new followBot(this.players[0].x + 30, this.players[0].y + 60));
+        this.enemyManager.addEnemy(new followBot(this.players[0].x + 10, this.players[0].y + 60));
+        this.enemyManager.addEnemy(new followBot(this.players[0].x - 40, this.players[0].y + 60));
+        this.enemyManager.addEnemy(new followBot(this.players[0].x - 20, this.players[0].y + 60));
         //this.followBots.push(new followBot(10, 10));
 
         //Add Meters         

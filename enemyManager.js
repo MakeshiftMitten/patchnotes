@@ -20,7 +20,8 @@ function enemyManager(x, y){
 	}
 
 	this.draw = function(){
-		for (var e = 0; e < this.enemies.length; e++)
+		for (var e = 0; e < this.enemies.length; e++){
 			this.enemies[e].draw();
+		}
 	}
 }
