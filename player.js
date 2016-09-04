@@ -62,7 +62,7 @@ function player(x, y){
         this.cameraCooldownCurrent -= dt;
         this.shotCooldownCurrent -= dt;
 
-        if(game.keys[75]){
+        if(game.keys[game.KeyBinds.Common.SWITCH]){
             if(this.swapCooldownCurrent <= 0)
             {
                 if(this.state =="bot"){
@@ -77,7 +77,7 @@ function player(x, y){
             }
         }
 
-        if(game.keys[67]){
+        if(game.keys[game.KeyBinds.Common.CAMERA]){
             if(this.cameraCooldownCurrent <= 0)
             {
                 if(game.drawType =="camera"){
@@ -92,42 +92,42 @@ function player(x, y){
             }
         }
 
-        if(game.keys[73]){
-            if(this.shotCooldownCurrent <= 0)
-            //console.log("shoot");
-                this.shoot();
+        if(game.drawType == "player")
+        {
+            draw.cameraX = this.x;
+            draw.cameraY = this.y;
         }
 
-            if(game.drawType == "player")
-            {
-                draw.cameraX = this.x;
-                draw.cameraY = this.y;
-            }
+
                 
-        if(game.keys[66]){
-            this.state = "ship";
-        }
         if(this.state == "ship")
         {
+            if(game.keys[game.KeyBinds.Ship.SHOOT]){
+                if(this.shotCooldownCurrent <= 0)
+                //console.log("shoot");
+                    this.shoot();
+            }
+
             this.velStrafe/= 1.3;
             //A
-            if(game.keys[65]){
+            if(game.keys[game.KeyBinds.Ship.TURNLEFT]){
                 this.orientation+=2;
             }
             //D
-            if(game.keys[68]){
+            if(game.keys[game.KeyBinds.Ship.TURNRIGHT]){
                 this.orientation-=2;
             }
                         
-            if(game.keys[87]){                
-                if(!game.keys[83]){
+            if(game.keys[game.KeyBinds.Ship.ACCEL]){                
+                if(!game.keys[game.KeyBinds.Ship.DECEL]){
                     this.velocity += this.accel*2*dt;
+                    game.streamers.push(new bitStreamer(this.x, this.y, this.orientation, this.velocity/2, .4, .1)) 
                 }
                 if (this.velocity > this.moveSpeed*2)
                     this.velocity = this.moveSpeed*2;
             }
             
-            if(game.keys[83]){
+            if(game.keys[game.KeyBinds.Ship.DECEL]){
                 this.velocity += -this.accel*dt;
                 if (this.velocity < -this.moveSpeed*2)
                     this.velocity = -this.moveSpeed*2;
@@ -136,19 +136,25 @@ function player(x, y){
             if(this.velocity < 10)
                 this.velocity += this.accel*dt;
 
-            if(!game.keys[16])
+            if(!game.keys[game.KeyBinds.Ship.SPECIAL])
                 this.heading = this.orientation;
         }
         if(this.state == "bot")
         {
+            if(game.keys[game.KeyBinds.Bot.SHOOT]){
+                if(this.shotCooldownCurrent <= 0)
+                //console.log("shoot");
+                    this.shoot();
+            }
+
              //A
-            if(game.keys[74]){
+            if(game.keys[game.KeyBinds.Bot.STRAFELEFT]){
                 this.velStrafe += -this.accel*20*dt;            
                 if(this.velStrafe < -this.moveSpeed)
                     this.velStrafe = -this.moveSpeed;
             }
             //D
-            else if(game.keys[76]){
+            else if(game.keys[game.KeyBinds.Bot.STRAFERIGHT]){
                 this.velStrafe += this.accel*20*dt;
                 if(this.velStrafe > this.moveSpeed)
                     this.velStrafe = this.moveSpeed;
@@ -157,21 +163,21 @@ function player(x, y){
                 this.velStrafe /= 2;
 
             //A
-            if(game.keys[65]){
+            if(game.keys[game.KeyBinds.Bot.TURNLEFT]){
                 this.orientation+=2;            
             }
             //D
-            else if(game.keys[68]){
+            else if(game.keys[game.KeyBinds.Bot.TURNRIGHT]){
                 this.orientation-=2;;
             }
                         
-            if(game.keys[87]){
+            if(game.keys[game.KeyBinds.Bot.ACCEL]){
                 this.velocity += this.accel*20*dt;
                 if (this.velocity > this.moveSpeed)
                     this.velocity = this.moveSpeed;
             }
             
-            else if(game.keys[83]){
+            else if(game.keys[game.KeyBinds.Bot.DECEL]){
                 this.velocity += -this.accel*20*dt;
                 if (this.velocity < -this.moveSpeed)
                     this.velocity = -this.moveSpeed;
@@ -232,6 +238,8 @@ function player(x, y){
         game.bulletManager.addBullet(pushBullet);
         this.shotCooldownCurrent  = this.shotCooldown/2;
     }
+
+
 
         
     }

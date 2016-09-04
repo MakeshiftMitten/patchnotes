@@ -2,12 +2,12 @@ function drawCameraCentricObject(cameraX, cameraY){
     this.cameraX = cameraX;
     this.cameraY = cameraY;
     //Function to draw the entire screen
-    this.drawScene = function(){
+    this.drawGame = function(){
         var gameCanvas = document.getElementById('gameCanvas');
         var ctx= gameCanvas.getContext("2d");        
 
             //Bounding Rect    
-            ctx.clearRect(0, 0, gameCanvas.width, gameCanvas.height); 
+            //ctx.clearRect(0, 0, gameCanvas.width, gameCanvas.height); 
             draw.drawBackgroundRect(game.gameWidth/2, game.gameHeight/2, game.gameWidth, game.gameHeight, game.colors.Background);
 
             
@@ -29,6 +29,10 @@ function drawCameraCentricObject(cameraX, cameraY){
                 game.pillars[p].draw();
             }
 
+            for(var b = 0; b < game.streamers.length; b++){
+                game.streamers[b].draw();
+            }
+
 
             game.bulletManager.draw();
 
@@ -47,6 +51,63 @@ function drawCameraCentricObject(cameraX, cameraY){
 
             // draw.drawFilledRectCentered(game.gameWidth/2, game.gameHeight/2, game.gameWidth, game.gameHeight - gameYToCanvasY(20), "#0000FF");                   
             
+    }
+
+    this.drawControlsMenu = function()
+    {
+        var gameCanvas = document.getElementById('gameCanvas');
+        var ctx= gameCanvas.getContext("2d");        
+
+        //Bounding Rect    
+        console.log("controls");
+        ctx.clearRect(0, 0, gameCanvas.width, gameCanvas.height); 
+        draw.drawBackgroundRect(game.gameWidth/2, game.gameHeight/2, game.gameWidth, game.gameHeight, game.colors.Background);
+
+        draw.drawInfoText(10, game.gameHeight - 10, game.controlsMenu.controlTypes[game.controlsMenu.controlsChoice]);
+
+        
+        var row = 1;
+        draw.drawInfoText(15, game.gameHeight - 10 - 5*row, "Common");
+        row++;
+        for (var prop in game.KeyBinds.Common){
+            
+             draw.drawInfoText(20, game.gameHeight - 10 - 5*row, prop);
+             row++;
+        }
+
+        draw.drawInfoText(15, game.gameHeight - 10 - 5*row, "Ship");
+        row++;
+        for (var prop in game.KeyBinds.Ship){
+            
+             draw.drawInfoText(20, game.gameHeight - 10 - 5*row, prop);
+             row++;
+        }
+
+        draw.drawInfoText(15, game.gameHeight - 10 - 5*row, "Bot");
+        row++;
+        for (var prop in game.KeyBinds.Bot){
+            
+             draw.drawInfoText(20, game.gameHeight - 10 - 5*row, prop);
+             row++;
+        }
+            
+        
+
+    }
+
+    this.drawEquipmentMenu = function()
+    {
+        var gameCanvas = document.getElementById('gameCanvas');
+        var ctx= gameCanvas.getContext("2d");        
+
+        //Bounding Rect    
+        console.log("controls");
+        ctx.clearRect(0, 0, gameCanvas.width, gameCanvas.height); 
+        draw.drawBackgroundRect(game.gameWidth/2, game.gameHeight/2, game.gameWidth, game.gameHeight, game.colors.Background);
+
+        for(var p = 0; p < game.pillars.length; p++){                
+                game.pillars[0].draw();
+        }
     }
     
     this.drawGrid = function()
@@ -194,6 +255,17 @@ function drawCameraCentricObject(cameraX, cameraY){
         ctx.beginPath();
         ctx.fillStyle = "#00FF00";
         ctx.fillText(text, gameXToCanvasX(gameX + game.gameWidth/2 - this.cameraX), gameYToCanvasY(-gameY + game.gameHeight/2 + this.cameraY))        ;    
+        ctx.stroke();
+        ctx.restore();
+    }
+
+    this.drawInfoText = function(gameX, gameY, text)
+    {
+        var ctx = game.ctx;
+        ctx.save();
+        ctx.beginPath();
+        ctx.fillStyle = "#00FF00";
+        ctx.fillText(text, gameXToCanvasX(gameX), gameYToCanvasY(game.gameHeight - gameY));    
         ctx.stroke();
         ctx.restore();
     }

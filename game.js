@@ -7,6 +7,43 @@ function gameObject(){
     var FloatingInSpace = {"Background":"#000000", "Ship":"#00FF00", "Enemy":"#CEF5FB", "Bomb":"#343A3B", "Well":"#8AAAAF"};
     //var FloatingInSpace = {"Background":"#5D6F72", "Ship":"#80CCD8", "Enemy":"#CEF5FB", "Bomb":"#343A3B", "Well":"#8AAAAF"};
     
+    var stockKeyBinds = {
+      Common : {
+        SWITCH : 75,
+        CAMERA : 67
+      },
+      //SHIP
+      Ship : {
+        ACCEL : 87,
+        DECEL : 83,
+        TURNRIGHT : 68,
+        TURNLEFT : 65,
+        SHOOT : 73,
+        SPECIAL: 16
+      },
+      //TURNRIGHT
+
+      //BOT
+      Bot: {
+        ACCEL : 87,
+        DECEL : 83,
+        TURNLEFT : 65,
+        TURNRIGHT : 68,
+        STRAFELEFT : 74,
+        STRAFERIGHT : 76,
+        SHOOT : 73,
+        SPECIAL : 16
+      }
+    };
+
+    this.controlsMenu = new controlsMenu();
+
+    this.KeyBinds = stockKeyBinds;
+
+    this.menuTimerMax = 1;
+    this.menuTimer = this.menuTimerMax;
+
+    this.screen = "GAME";
     this.colors = FloatingInSpace;
     
     //Canvas Context for easy referencing
@@ -28,7 +65,102 @@ function gameObject(){
             return false;
           }
     }        
-    
+
+    this.draw = function(){
+      if(this.screen == "MENU"){
+        draw.drawControlsMenu();
+        this.controlsMenu.draw();
+      }
+      else if(this.screen =="GAME"){
+        draw.drawGame();
+        }
+      else if(this.screen =="EQUIP"){
+        draw.drawEquipmentMenu();
+      }
+
+    }
+
+    this.update = function(dt){
+        this.menuTimer -= dt;
+
+        //Handle Menu Switches
+        if(game.keys[77]){
+            if(this.menuTimer < 0){
+                if(this.screen == "MENU"){
+                    this.screen = "GAME";
+                    console.log('toGame');
+                }
+                else {
+                    this.screen = "MENU";
+                    console.log('toMenu');
+                }
+                this.menuTimer = this.menuTimerMax;
+            }
+        }
+
+        else if(game.keys[78]){
+            if(this.menuTimer < 0){
+                if(this.screen == "EQUIP"){
+                    this.screen = "GAME";                
+                }
+                else {
+                    this.screen = "EQUIP";                    
+                }
+                this.menuTimer = this.menuTimerMax;
+            }
+        }
+
+        //Handle Menu Updates
+        if(this.screen == "GAME"){
+            this.updateGame(dt);
+        }
+        else if(this.screen == "MENU"){    
+            this.updateControlsMenu(dt);
+        }
+        else if(this.screen == "EQUIP"){
+            this.updateEquipmentMenu(dt);
+        }
+    }    
+
+    this.updateEquipmentMenu = function(dt){
+
+    }
+
+    this.updateControlsMenu = function(dt){
+        this.controlsMenu.update(dt);
+    }
+
+    this.updateGame = function(dt){
+            // if(game.keys[82]){
+        // console.log("new!");
+        // game = new gameObject();
+        // game.init();
+        // }
+
+
+        //Example of update loop
+        for(var p = 0; p < game.players.length; p++){
+            game.players[p].update(dt);
+        } 
+
+        for(var b = 0; b < game.boxes.length; b++){
+            game.boxes[b].update(dt);
+        }
+
+        for(var c = 0; c < game.coordinates.length; c++){
+            game.coordinates[c].update(dt);
+        }
+
+        for(var c = 0; c < game.streamers.length; c++){
+            game.streamers[c].update(dt);
+        }
+
+        game.bulletManager.update(dt);
+
+        game.enemyManager.update(dt);
+    }
+           
+        
     //Physics Variables
     //this.gravity = 10;
     this.gravity = 0;
@@ -49,6 +181,8 @@ function gameObject(){
     this.coordinates = [];
     this.bullets = [];
     this.followBots = [];
+
+    this.streamers = [];
 
     this.drawType = "player";
 
@@ -73,6 +207,8 @@ function gameObject(){
             this.coordinates.push(new coordinate(x, -x));
         }
 
+        
+
         this.pillars.push(new pillar(70, 40, 5, 100));
         this.pillars.push(new pillar(-70, 40, 5, 100));
 
@@ -89,10 +225,6 @@ function gameObject(){
         this.enemyManager.addEnemy(new followBot(this.players[0].x - 40, this.players[0].y - 60));
         this.enemyManager.addEnemy(new followBot(this.players[0].x - 20, this.players[0].y - 60));
 
-        this.enemyManager.addEnemy(new followBot(this.players[0].x + 30, this.players[0].y + 60));
-        this.enemyManager.addEnemy(new followBot(this.players[0].x + 10, this.players[0].y + 60));
-        this.enemyManager.addEnemy(new followBot(this.players[0].x - 40, this.players[0].y + 60));
-        this.enemyManager.addEnemy(new followBot(this.players[0].x - 20, this.players[0].y + 60));
         //this.followBots.push(new followBot(10, 10));
 
         //Add Meters         
