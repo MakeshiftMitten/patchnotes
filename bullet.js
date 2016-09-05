@@ -1,10 +1,11 @@
-function bullet(x, y, orientation, velocity, lifeTime){	
+function bullet(x, y, orientation, velocity, lifeTime, elevation){	
 	this.x = x;
 	this.y = y;
 
 	this.orientation = orientation;
 	this.velocity = velocity;
 
+	this.elevation = elevation;
 	this.lifeTime = lifeTime;
 	this.currentTime = 0;
 
@@ -18,26 +19,28 @@ function bullet(x, y, orientation, velocity, lifeTime){
 			for(var x = 0; x < game.enemyManager.enemies.length; x++)
 			{
 				if(this.isActive)
-							{	
-								if(pointInRectangle(this, game.enemyManager.enemies[x])){
-										game.enemyManager.enemies[x].onHit(10);										
-										this.isActive = false;
-
-
-							}
+				{	
+					if(pointInRectangle(this, game.enemyManager.enemies[x])){
+						game.enemyManager.enemies[x].onHit(10);										
+						this.isActive = false;
+						}
 					}			
 			}
 
 			for(var x = 0; x < game.pillars.length; x++)
 			{
-				
-							{	
-								if(pointInRectangle(this, game.pillars[x])){																				
-										this.isActive = false;
-
-								
-							}
-					}			
+				{	
+			
+					if(pointInRectangle(this, game.pillars[x])){
+						if(this.elevation == 0){
+							this.isActive = false;
+						}
+						else if(this.elevation == 1){
+							if(game.pillars[x].elevation == 1)
+								this.isActive = false;
+						}
+					}
+				}			
 			}
 
 			this.currentTime += dt;

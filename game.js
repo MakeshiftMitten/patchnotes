@@ -209,11 +209,11 @@ function gameObject(){
 
         
 
-        this.pillars.push(new pillar(70, 40, 5, 100));
-        this.pillars.push(new pillar(-70, 40, 5, 100));
+        this.pillars.push(new pillar(70, 40, 5, 100, 0));
+        this.pillars.push(new pillar(-70, 40, 5, 100, 0));
 
-        this.pillars.push(new pillar(90, 40, 5, 100));
-        this.pillars.push(new pillar(-90, 40, 5, 100));
+        this.pillars.push(new pillar(90, 40, 5, 100, 1));
+        this.pillars.push(new pillar(-90, 40, 5, 100, 1));
 
         this.enemyManager.addEnemy(new followBot(this.players[0].x + 30, this.players[0].y + 60));
         this.enemyManager.addEnemy(new followBot(this.players[0].x + 10, this.players[0].y + 60));

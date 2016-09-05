@@ -34,6 +34,7 @@ function player(x, y){
     this.orientation = 90;
     this.heading = this.orientation;
 
+    this.isAlive = true;
     this.state = "ship"; //ship, bot
 
     
@@ -47,11 +48,12 @@ function player(x, y){
     }
     
     this.draw = function(){
-        if(this.currentLife > 0){
+        if(this.isAlive){
             draw.drawPlayerRect(game.gameWidth/2, game.gameHeight/2, this.width, this.height, this.orientation);               
         }
-        else
-            draw.drawText(game.gameWidth/2-8, game.gameHeight/2-6, "GAME OVER. PRESS R TO RESTART");
+        else{
+            //draw.drawPlayerRect(game.gameWidth/2, game.gameHeight/2, this.width, this.height, -this.orientation)
+        }
     }        
             
     this.update = function(dt){
@@ -121,7 +123,7 @@ function player(x, y){
             if(game.keys[game.KeyBinds.Ship.ACCEL]){                
                 if(!game.keys[game.KeyBinds.Ship.DECEL]){
                     this.velocity += this.accel*2*dt;
-                    game.streamers.push(new bitStreamer(this.x, this.y, this.orientation, this.velocity/2, .4, .1)) 
+                    //game.streamers.push(new bitStreamer(this.x, this.y, this.orientation, this.velocity/2, .4, .1)) 
                 }
                 if (this.velocity > this.moveSpeed*2)
                     this.velocity = this.moveSpeed*2;
@@ -207,12 +209,18 @@ function player(x, y){
             var pillar = game.pillars[p];
 
             if(pointInRectangle(this, pillar)){
-                if(oldX < pillar.left() && this.x > pillar.left() 
-                    || oldX > pillar.right() && this.x < pillar.right())
-                    this.x = oldX;
-                if(oldY < pillar.bottom() && this.y > pillar.bottom()
-                    || oldY > pillar.top() && this.y < pillar.top())
-                    this.y = oldY;
+                if(this.state == "ship"){
+                    if(pillar.elevation == 1){
+                        this.isAlive = false;
+                    }
+                }
+                else if(this.state == "bot")
+                    if(oldX < pillar.left() && this.x > pillar.left() 
+                        || oldX > pillar.right() && this.x < pillar.right())
+                        this.x = oldX;
+                    if(oldY < pillar.bottom() && this.y > pillar.bottom()
+                        || oldY > pillar.top() && this.y < pillar.top())
+                        this.y = oldY;
             }
         }
         
@@ -225,19 +233,20 @@ function player(x, y){
     }
 
     this.shoot = function(){    
-    if(this.shotType == "SHOTGUN"){
-        game.bulletManager.addBullet(new bullet(this.x, this.y, this.orientation, 100, .4, 1));
-        game.bulletManager.addBullet(new bullet(this.x, this.y, this.orientation-3, 100, .4, 1));
-        game.bulletManager.addBullet(new bullet(this.x, this.y, this.orientation+3, 100, .4, 1));
-        game.bulletManager.addBullet(new bullet(this.x, this.y, this.orientation-7, 100, .4, 1));
-        game.bulletManager.addBullet(new bullet(this.x, this.y, this.orientation+7, 100, .4, 1));
-        this.shotCooldownCurrent = this.shotCooldown*2;
-    }
-    else if(this.shotType == "MACHINEGUN"){
-        var pushBullet = new bullet(this.x, this.y, this.orientation, 100, 1, 1);
-        game.bulletManager.addBullet(pushBullet);
-        this.shotCooldownCurrent  = this.shotCooldown/2;
-    }
+
+        if(this.shotType == "SHOTGUN"){
+            game.bulletManager.addBullet(new bullet(this.x, this.y, this.orientation, 100, .4, 0));
+            game.bulletManager.addBullet(new bullet(this.x, this.y, this.orientation-3, 100, .4, 0));
+            game.bulletManager.addBullet(new bullet(this.x, this.y, this.orientation+3, 100, .4, 0));
+            game.bulletManager.addBullet(new bullet(this.x, this.y, this.orientation-7, 100, .4, 0));
+            game.bulletManager.addBullet(new bullet(this.x, this.y, this.orientation+7, 100, .4, 0));
+            this.shotCooldownCurrent = this.shotCooldown*2;
+        }
+        else if(this.shotType == "MACHINEGUN"){
+            var pushBullet = new bullet(this.x, this.y, this.orientation, 100, 1, 1);
+            game.bulletManager.addBullet(pushBullet);
+            this.shotCooldownCurrent  = this.shotCooldown/2;
+        }
 
 
 

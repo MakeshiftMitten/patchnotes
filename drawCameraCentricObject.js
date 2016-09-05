@@ -13,9 +13,7 @@ function drawCameraCentricObject(cameraX, cameraY){
             
             this.drawGrid();
 
-            for(var p = 0; p < game.players.length; p++){                
-                game.players[p].draw();
-            }
+            
 
             for(var b = 0; b < game.boxes.length; b++){
                 game.boxes[b].draw();
@@ -31,6 +29,10 @@ function drawCameraCentricObject(cameraX, cameraY){
 
             for(var b = 0; b < game.streamers.length; b++){
                 game.streamers[b].draw();
+            }
+
+            for(var p = 0; p < game.players.length; p++){                
+                game.players[p].draw();
             }
 
 
@@ -187,6 +189,7 @@ function drawCameraCentricObject(cameraX, cameraY){
         var ctx= gameCanvas.getContext("2d");   
         ctx.save();
         ctx.beginPath();
+        ctx.fillStyle = color;
         ctx.rect(gameXToCanvasX(gameX - gameWidth/2 + game.gameWidth/2 - this.cameraX), gameYToCanvasY(-gameY - gameHeight/2 + game.gameHeight/2 + this.cameraY), gameXToCanvasX(gameWidth), gameYToCanvasY(gameHeight));
         ctx.stroke();
         if(fill)
