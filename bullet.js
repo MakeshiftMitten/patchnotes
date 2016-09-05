@@ -1,4 +1,4 @@
-function bullet(x, y, orientation, velocity, lifeTime, elevation){	
+function bullet(x, y, orientation, velocity, lifeTime, elevation, safe){	
 	this.x = x;
 	this.y = y;
 
@@ -8,6 +8,7 @@ function bullet(x, y, orientation, velocity, lifeTime, elevation){
 	this.elevation = elevation;
 	this.lifeTime = lifeTime;
 	this.currentTime = 0;
+	this.safe = safe;
 
 	this.isActive = true;
 
@@ -46,20 +47,21 @@ function bullet(x, y, orientation, velocity, lifeTime, elevation){
 			for(var x = 0; x < game.players.length; x++)
 			{
 				{	
-			
-					if(pointInRectangle(this, game.players[x])){
-						if(this.elevation == 0){
-							if(game.players[x].getElevation() == 0){
+					if(!this.safe){
+						if(pointInRectangle(this, game.players[x])){
+							if(this.elevation == 0){
+								if(game.players[x].getElevation() == 0){
+										console.log("HIT");
+										this.isActive = false;
+										game.players[x].onHit(10);
+								}
+							}
+							else if(this.elevation == 1){
 									console.log("HIT");
 									this.isActive = false;
 									game.players[x].onHit(10);
+								
 							}
-						}
-						else if(this.elevation == 1){
-								console.log("HIT");
-								this.isActive = false;
-								game.players[x].onHit(10);
-							
 						}
 					}
 				}			

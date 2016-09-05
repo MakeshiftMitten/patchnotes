@@ -254,15 +254,15 @@ function player(x, y){
     this.shoot = function(){    
 
         if(this.shotType == "SHOTGUN"){
-            game.bulletManager.addBullet(new bullet(this.x, this.y, this.orientation, 100, .4, 0));
-            game.bulletManager.addBullet(new bullet(this.x, this.y, this.orientation-3, 100, .4, 0));
-            game.bulletManager.addBullet(new bullet(this.x, this.y, this.orientation+3, 100, .4, 0));
-            game.bulletManager.addBullet(new bullet(this.x, this.y, this.orientation-7, 100, .4, 0));
-            game.bulletManager.addBullet(new bullet(this.x, this.y, this.orientation+7, 100, .4, 0));
+            game.bulletManager.addBullet(new bullet(this.x, this.y, this.orientation, 100, .4, 0, true));
+            game.bulletManager.addBullet(new bullet(this.x, this.y, this.orientation-3, 100, .4, 0, true));
+            game.bulletManager.addBullet(new bullet(this.x, this.y, this.orientation+3, 100, .4, 0, true));
+            game.bulletManager.addBullet(new bullet(this.x, this.y, this.orientation-7, 100, .4, 0, true));
+            game.bulletManager.addBullet(new bullet(this.x, this.y, this.orientation+7, 100, .4, 0, true));
             this.shotCooldownCurrent = this.shotCooldown*2;
         }
         else if(this.shotType == "MACHINEGUN"){
-            var pushBullet = new bullet(this.x, this.y, this.orientation, 100, 1, 1);
+            var pushBullet = new bullet(this.x, this.y, this.orientation, 100, 1, 1, true);
             game.bulletManager.addBullet(pushBullet);
             this.shotCooldownCurrent  = this.shotCooldown/2;
         }
