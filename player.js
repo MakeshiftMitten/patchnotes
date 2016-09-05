@@ -36,8 +36,23 @@ function player(x, y){
 
     this.isAlive = true;
     this.state = "ship"; //ship, bot
+    this.getElevation = function(){
+        if(this.state == "ship"){
+            if(this.highFlying){
+                return 2;
+            }
+            return 1;
+        }
+        if(this.state == "bot"){
+            return 0;
+        }
+    }
 
-    
+    this.onHit = function(damage){
+        this.currentLife -= damage;
+        console.log(this.currentLife);
+    }
+
     this.right = function(){return this.x + this.width/2;};
     this.left = function(){return this.x - this.width/2};
     this.top = function(){return this.y + this.height/2};
@@ -49,7 +64,7 @@ function player(x, y){
     
     this.draw = function(){
         if(this.isAlive){
-            draw.drawPlayerRect(game.gameWidth/2, game.gameHeight/2, this.width, this.height, this.orientation);               
+            draw.drawPlayerRect(game.gameWidth/2, game.gameHeight/2, this.width, this.height, this.orientation);   
         }
         else{
             //draw.drawPlayerRect(game.gameWidth/2, game.gameHeight/2, this.width, this.height, -this.orientation)
@@ -58,136 +73,140 @@ function player(x, y){
             
     this.update = function(dt){
 
+        if(this.currentLife <= 0){
+            this.isAlive = false;
+        }
+        else{
+            //Update Cooldowns
+            this.swapCooldownCurrent -= dt;
+            this.cameraCooldownCurrent -= dt;
+            this.shotCooldownCurrent -= dt;
 
-        //Update Cooldowns
-        this.swapCooldownCurrent -= dt;
-        this.cameraCooldownCurrent -= dt;
-        this.shotCooldownCurrent -= dt;
-
-        if(game.keys[game.KeyBinds.Common.SWITCH]){
-            if(this.swapCooldownCurrent <= 0)
-            {
-                if(this.state =="bot"){
-                    this.state = "ship";
-                    this.shotType = "MACHINEGUN";
+            if(game.keys[game.KeyBinds.Common.SWITCH]){
+                if(this.swapCooldownCurrent <= 0)
+                {
+                    if(this.state =="bot"){
+                        this.state = "ship";
+                        this.shotType = "MACHINEGUN";
+                    }
+                    else if(this.state == "ship"){
+                        this.state = "bot";
+                        this.shotType = "SHOTGUN";
+                    }
+                    this.swapCooldownCurrent = this.swapCooldown;
                 }
-                else if(this.state == "ship"){
-                    this.state = "bot";
-                    this.shotType = "SHOTGUN";
-                }
-                this.swapCooldownCurrent = this.swapCooldown;
             }
-        }
 
-        if(game.keys[game.KeyBinds.Common.CAMERA]){
-            if(this.cameraCooldownCurrent <= 0)
-            {
-                if(game.drawType =="camera"){
-                    //draw = new drawPlayerCentricObject();
-                    game.drawType = "player";
+            if(game.keys[game.KeyBinds.Common.CAMERA]){
+                if(this.cameraCooldownCurrent <= 0)
+                {
+                    if(game.drawType =="camera"){
+                        //draw = new drawPlayerCentricObject();
+                        game.drawType = "player";
+                    }
+                    else if(game.drawType == "player"){
+                        draw = new drawCameraCentricObject(this.x, this.y);
+                        game.drawType = "camera";
+                    }
+                    this.cameraCooldownCurrent = this.cameraCooldown;
                 }
-                else if(game.drawType == "player"){
-                    draw = new drawCameraCentricObject(this.x, this.y);
-                    game.drawType = "camera";
-                }
-                this.cameraCooldownCurrent = this.cameraCooldown;
             }
-        }
 
-        if(game.drawType == "player")
-        {
-            draw.cameraX = this.x;
-            draw.cameraY = this.y;
-        }
+            if(game.drawType == "player")
+            {
+                draw.cameraX = this.x;
+                draw.cameraY = this.y;
+            }
 
 
+                    
+            if(this.state == "ship")
+            {
+                if(game.keys[game.KeyBinds.Ship.SHOOT]){
+                    if(this.shotCooldownCurrent <= 0)
+                    //console.log("shoot");
+                        this.shoot();
+                }
+
+                this.velStrafe/= 1.3;
+                //A
+                if(game.keys[game.KeyBinds.Ship.TURNLEFT]){
+                    this.orientation+=2;
+                }
+                //D
+                if(game.keys[game.KeyBinds.Ship.TURNRIGHT]){
+                    this.orientation-=2;
+                }
+                            
+                if(game.keys[game.KeyBinds.Ship.ACCEL]){                
+                    if(!game.keys[game.KeyBinds.Ship.DECEL]){
+                        this.velocity += this.accel*2*dt;
+                        //game.streamers.push(new bitStreamer(this.x, this.y, this.orientation, this.velocity/2, .4, .1)) 
+                    }
+                    if (this.velocity > this.moveSpeed*2)
+                        this.velocity = this.moveSpeed*2;
+                }
                 
-        if(this.state == "ship")
-        {
-            if(game.keys[game.KeyBinds.Ship.SHOOT]){
-                if(this.shotCooldownCurrent <= 0)
-                //console.log("shoot");
-                    this.shoot();
-            }
-
-            this.velStrafe/= 1.3;
-            //A
-            if(game.keys[game.KeyBinds.Ship.TURNLEFT]){
-                this.orientation+=2;
-            }
-            //D
-            if(game.keys[game.KeyBinds.Ship.TURNRIGHT]){
-                this.orientation-=2;
-            }
-                        
-            if(game.keys[game.KeyBinds.Ship.ACCEL]){                
-                if(!game.keys[game.KeyBinds.Ship.DECEL]){
-                    this.velocity += this.accel*2*dt;
-                    //game.streamers.push(new bitStreamer(this.x, this.y, this.orientation, this.velocity/2, .4, .1)) 
+                if(game.keys[game.KeyBinds.Ship.DECEL]){
+                    this.velocity += -this.accel*dt;
+                    if (this.velocity < -this.moveSpeed*2)
+                        this.velocity = -this.moveSpeed*2;
                 }
-                if (this.velocity > this.moveSpeed*2)
-                    this.velocity = this.moveSpeed*2;
-            }
-            
-            if(game.keys[game.KeyBinds.Ship.DECEL]){
-                this.velocity += -this.accel*dt;
-                if (this.velocity < -this.moveSpeed*2)
-                    this.velocity = -this.moveSpeed*2;
-            }
 
-            if(this.velocity < 10)
-                this.velocity += this.accel*dt;
+                if(this.velocity < 10)
+                    this.velocity += this.accel*dt;
 
-            if(!game.keys[game.KeyBinds.Ship.SPECIAL])
+                if(!game.keys[game.KeyBinds.Ship.SPECIAL])
+                    this.heading = this.orientation;
+            }
+            if(this.state == "bot")
+            {
+                if(game.keys[game.KeyBinds.Bot.SHOOT]){
+                    if(this.shotCooldownCurrent <= 0)
+                    //console.log("shoot");
+                        this.shoot();
+                }
+
+                 //A
+                if(game.keys[game.KeyBinds.Bot.STRAFELEFT]){
+                    this.velStrafe += -this.accel*20*dt;            
+                    if(this.velStrafe < -this.moveSpeed)
+                        this.velStrafe = -this.moveSpeed;
+                }
+                //D
+                else if(game.keys[game.KeyBinds.Bot.STRAFERIGHT]){
+                    this.velStrafe += this.accel*20*dt;
+                    if(this.velStrafe > this.moveSpeed)
+                        this.velStrafe = this.moveSpeed;
+                }
+                else 
+                    this.velStrafe /= 2;
+
+                //A
+                if(game.keys[game.KeyBinds.Bot.TURNLEFT]){
+                    this.orientation+=2;            
+                }
+                //D
+                else if(game.keys[game.KeyBinds.Bot.TURNRIGHT]){
+                    this.orientation-=2;;
+                }
+                            
+                if(game.keys[game.KeyBinds.Bot.ACCEL]){
+                    this.velocity += this.accel*20*dt;
+                    if (this.velocity > this.moveSpeed)
+                        this.velocity = this.moveSpeed;
+                }
+                
+                else if(game.keys[game.KeyBinds.Bot.DECEL]){
+                    this.velocity += -this.accel*20*dt;
+                    if (this.velocity < -this.moveSpeed)
+                        this.velocity = -this.moveSpeed;
+                }
+                else
+                    this.velocity/=1.1;
+
                 this.heading = this.orientation;
-        }
-        if(this.state == "bot")
-        {
-            if(game.keys[game.KeyBinds.Bot.SHOOT]){
-                if(this.shotCooldownCurrent <= 0)
-                //console.log("shoot");
-                    this.shoot();
             }
-
-             //A
-            if(game.keys[game.KeyBinds.Bot.STRAFELEFT]){
-                this.velStrafe += -this.accel*20*dt;            
-                if(this.velStrafe < -this.moveSpeed)
-                    this.velStrafe = -this.moveSpeed;
-            }
-            //D
-            else if(game.keys[game.KeyBinds.Bot.STRAFERIGHT]){
-                this.velStrafe += this.accel*20*dt;
-                if(this.velStrafe > this.moveSpeed)
-                    this.velStrafe = this.moveSpeed;
-            }
-            else 
-                this.velStrafe /= 2;
-
-            //A
-            if(game.keys[game.KeyBinds.Bot.TURNLEFT]){
-                this.orientation+=2;            
-            }
-            //D
-            else if(game.keys[game.KeyBinds.Bot.TURNRIGHT]){
-                this.orientation-=2;;
-            }
-                        
-            if(game.keys[game.KeyBinds.Bot.ACCEL]){
-                this.velocity += this.accel*20*dt;
-                if (this.velocity > this.moveSpeed)
-                    this.velocity = this.moveSpeed;
-            }
-            
-            else if(game.keys[game.KeyBinds.Bot.DECEL]){
-                this.velocity += -this.accel*20*dt;
-                if (this.velocity < -this.moveSpeed)
-                    this.velocity = -this.moveSpeed;
-            }
-            else
-                this.velocity/=1.1;
-
-            this.heading = this.orientation;
         }
         
 

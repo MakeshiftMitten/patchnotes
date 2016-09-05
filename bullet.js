@@ -43,6 +43,28 @@ function bullet(x, y, orientation, velocity, lifeTime, elevation){
 				}			
 			}
 
+			for(var x = 0; x < game.players.length; x++)
+			{
+				{	
+			
+					if(pointInRectangle(this, game.players[x])){
+						if(this.elevation == 0){
+							if(game.players[x].getElevation() == 0){
+									console.log("HIT");
+									this.isActive = false;
+									game.players[x].onHit(10);
+							}
+						}
+						else if(this.elevation == 1){
+								console.log("HIT");
+								this.isActive = false;
+								game.players[x].onHit(10);
+							
+						}
+					}
+				}			
+			}
+
 			this.currentTime += dt;
 			if(this.currentTime > this.lifeTime)
 			{
@@ -53,6 +75,10 @@ function bullet(x, y, orientation, velocity, lifeTime, elevation){
 
 	this.draw = function(){
 		if(this.isActive)
-			draw.drawText(this.x, this.y, "0");
+			if(this.elevation < game.players[0].getElevation()){
+				draw.drawText(this.x, this.y, "0", "#008800");
+			}
+			else
+				draw.drawText(this.x, this.y, "0", "#00FF00");
 	}
 }

@@ -215,15 +215,15 @@ function gameObject(){
         this.pillars.push(new pillar(90, 40, 5, 100, 1));
         this.pillars.push(new pillar(-90, 40, 5, 100, 1));
 
-        this.enemyManager.addEnemy(new followBot(this.players[0].x + 30, this.players[0].y + 60));
-        this.enemyManager.addEnemy(new followBot(this.players[0].x + 10, this.players[0].y + 60));
-        this.enemyManager.addEnemy(new followBot(this.players[0].x - 40, this.players[0].y + 60));
-        this.enemyManager.addEnemy(new followBot(this.players[0].x - 20, this.players[0].y + 60));
+        this.enemyManager.addEnemy(new followBot(this.players[0].x + 30, this.players[0].y + 60, 1));
+        this.enemyManager.addEnemy(new followBot(this.players[0].x + 10, this.players[0].y + 60, 1));
+        this.enemyManager.addEnemy(new followBot(this.players[0].x - 40, this.players[0].y + 60, 1, 0));
+        this.enemyManager.addEnemy(new followBot(this.players[0].x - 20, this.players[0].y + 60, 1));
 
-        this.enemyManager.addEnemy(new followBot(this.players[0].x + 30, this.players[0].y - 60));
-        this.enemyManager.addEnemy(new followBot(this.players[0].x + 10, this.players[0].y - 60));
-        this.enemyManager.addEnemy(new followBot(this.players[0].x - 40, this.players[0].y - 60));
-        this.enemyManager.addEnemy(new followBot(this.players[0].x - 20, this.players[0].y - 60));
+        this.enemyManager.addEnemy(new followBot(this.players[0].x + 30, this.players[0].y - 60, 0));
+        this.enemyManager.addEnemy(new followBot(this.players[0].x + 10, this.players[0].y - 60, 0));
+        this.enemyManager.addEnemy(new followBot(this.players[0].x - 40, this.players[0].y - 60, 0));
+        this.enemyManager.addEnemy(new followBot(this.players[0].x - 20, this.players[0].y - 60, 0));
 
         //this.followBots.push(new followBot(10, 10));
 

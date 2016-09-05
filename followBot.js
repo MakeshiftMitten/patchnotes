@@ -1,4 +1,4 @@
-function followBot(x, y){	
+function followBot(x, y, shotElevation){	
 	this.x = x;
 	this.y = y;
 
@@ -11,6 +11,7 @@ function followBot(x, y){
 	this.maxHealth = 100;
 	this.health = 100;
 	
+	this.shotElevation = shotElevation;
 	this.isHit = false;
 	this.movementState = "RUN";
 	this.state = "";
@@ -82,7 +83,7 @@ function followBot(x, y){
 		// else 
 		//  	var angle = toDeg(Math.atan(slopeToPlayer)) + 180;
 		
-		var pushBullet = new bullet(this.x + 15*Math.cos(toRad(angle)), this.y + 15*Math.sin(toRad(angle)), angle, 30, 1);  //*Math.sin(angle), 
+		var pushBullet = new bullet(this.x + 15*Math.cos(toRad(angle)), this.y + 15*Math.sin(toRad(angle)), angle, 30, 1, this.shotElevation);  //*Math.sin(angle), 
         game.bulletManager.addBullet(pushBullet);
 	}
 

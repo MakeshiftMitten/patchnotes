@@ -49,6 +49,7 @@ function drawCameraCentricObject(cameraX, cameraY){
             ctx.rect(0, gameCanvas.height - gameYToCanvasY(20), gameCanvas.width, gameCanvas.height);       
             ctx.stroke();
             ctx.fill();
+            draw.drawInfoText(10, 15, "Life: " + game.players[0].currentLife);
             ctx.closePath();
 
             // draw.drawFilledRectCentered(game.gameWidth/2, game.gameHeight/2, game.gameWidth, game.gameHeight - gameYToCanvasY(20), "#0000FF");                   
@@ -251,12 +252,14 @@ function drawCameraCentricObject(cameraX, cameraY){
         ctx.restore();
     }
 
-    this.drawText = function(gameX, gameY, text)
+    this.drawText = function(gameX, gameY, text, color)
     {
         var ctx = game.ctx;
         ctx.save();
         ctx.beginPath();
         ctx.fillStyle = "#00FF00";
+        if(color != undefined)
+            ctx.fillStyle = color;
         ctx.fillText(text, gameXToCanvasX(gameX + game.gameWidth/2 - this.cameraX), gameYToCanvasY(-gameY + game.gameHeight/2 + this.cameraY))        ;    
         ctx.stroke();
         ctx.restore();
