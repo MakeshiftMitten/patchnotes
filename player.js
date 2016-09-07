@@ -13,7 +13,9 @@ function player(x, y){
     this.moveSpeed = 20;
 
     this.shotType = "MACHINEGUN";
-
+    this.lifeState = "ALIVE";
+    this.dyingTimer = 2;
+        
     
     this.maxLife = 100;
     this.currentLife = 100;
@@ -234,30 +236,42 @@ function player(x, y){
                         this.currentLife -= this.maxLife;
                         this.isAlive = false;
                     }
+
+
                 }
-                else if(this.state == "bot")
+                else if(this.state == "bot"){
+                    if(pillar.elevation == -1){
+                        this.currentLife -= this.maxLife;
+                        this.isAlive = false;
+                    }
+
                     if(oldX < pillar.left() && this.x > pillar.left() 
                         || oldX > pillar.right() && this.x < pillar.right())
                         this.x = oldX;
                     if(oldY < pillar.bottom() && this.y > pillar.bottom()
                         || oldY > pillar.top() && this.y < pillar.top())
                         this.y = oldY;
+                }
             }
         }
 
         //console.log(this.getSector(oldX, oldY));
-        if(Math.floor((this.y+200)/400) != game.currentSector.y || Math.floor((this.x+200)/400) != game.currentSector.x)
+        if(this.getSectorY() != game.currentSector.y || this.getSectorX() != game.currentSector.x)
         {
-            console.log(this.getSector(this.x) + " " + this.getSector(this.y));
-            game.currentSector = game.sectors[Math.floor((this.x+200)/400)][Math.floor((this.y+200)/400)];
+            game.loadSector(this.getSectorX(), this.getSectorY());
+            //game.currentSector = game.sectors[Math.floor((this.x+200)/400)][Math.floor((this.y+200)/400)];
         }
         
         }
         
     }
 
-    this.getSector = function(x){
-        return Math.floor((x+200)/400);
+    this.getSectorX = function(){
+        return Math.floor((this.x+game.sectorWidth/2)/game.sectorWidth);
+    }
+
+    this.getSectorY = function(){
+        return Math.floor((this.y+game.sectorHeight/2)/game.sectorHeight);
     }
     
     this.updateState = function(dt){
@@ -280,11 +294,15 @@ function player(x, y){
             this.shotCooldownCurrent  = this.shotCooldown/2;
         }
         else if(shotType == "DEATH"){
-            game.currentSector.bulletManager.addBullet(new bullet(this.x, this.y, this.orientation+45, 100, .4, 2, true));
-            game.currentSector.bulletManager.addBullet(new bullet(this.x, this.y, this.orientation+45*2, 100, .4, 2, true));
-            game.currentSector.bulletManager.addBullet(new bullet(this.x, this.y, this.orientation+45*3, 100, .4, 2, true));
-            game.currentSector.bulletManager.addBullet(new bullet(this.x, this.y, this.orientation+45*4, 100, .4, 2, true));
-            game.currentSector.bulletManager.addBullet(new bullet(this.x, this.y, this.orientation+45*5, 100, .4, 2, true));
+            game.currentSector.bulletManager.addBullet(new bullet(this.x, this.y, this.orientation+45, 10, .4, 2, true));
+            game.currentSector.bulletManager.addBullet(new bullet(this.x, this.y, this.orientation+45*2, 10, .4, 2, true));
+            game.currentSector.bulletManager.addBullet(new bullet(this.x, this.y, this.orientation+45*3, 10, .4, 2, true));
+            game.currentSector.bulletManager.addBullet(new bullet(this.x, this.y, this.orientation+45*4, 10, .4, 2, true));
+            game.currentSector.bulletManager.addBullet(new bullet(this.x, this.y, this.orientation+45*5, 10, .4, 2, true));
+            game.currentSector.bulletManager.addBullet(new bullet(this.x, this.y, this.orientation+45*6, 10, .4, 2, true));
+            game.currentSector.bulletManager.addBullet(new bullet(this.x, this.y, this.orientation+45*7, 10, .4, 2, true));
+            game.currentSector.bulletManager.addBullet(new bullet(this.x, this.y, this.orientation+45*8, 10, .4, 2, true));
+            game.currentSector.bulletManager.addBullet(new bullet(this.x, this.y, this.orientation+45*9, 10, .4, 2, true));
         }
 
 

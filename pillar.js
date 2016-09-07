@@ -35,6 +35,15 @@ function pillar(x, y, width, height, elevation){
 			}
 		} 
 
+		else if(this.elevation == -1){
+			if(game.players[0].state == "ship"){
+				draw.drawRectCentered(this.x, this.y, this.width, this.height, "#000022", true);
+			}
+			if(game.players[0].state == "bot"){
+				draw.drawRectCentered(this.x, this.y, this.width, this.height, "#000022", true);
+			}
+		} 
+
 		
 	}
 }

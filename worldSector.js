@@ -1,4 +1,4 @@
-function worldSector(x, y){
+function worldSector(x, y, width, height){
 
 	this.x = x;
 	this.y = y;
@@ -7,8 +7,8 @@ function worldSector(x, y){
     this.bulletManager = new bulletManager();
     this.enemyManager = new enemyManager();           
 
-    this.height = 400;
-    this.width = 400; 
+    this.height = height;
+    this.width = width; 
 
 	this.update = function(dt){
 		for(var x = 0; x < this.pillars.length; x++){

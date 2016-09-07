@@ -4,6 +4,11 @@ function gameObject(){
     this.gameWidth = 200 ;
     this.gameHeight = this.gameWidth * 3.0/4.0; 
     
+    this.sectorHeight = 400;
+    this.sectorWidth = 400;
+
+    this.dimensions = 5;
+
     var FloatingInSpace = {"Background":"#000000", "Ship":"#00FF00", "Enemy":"#CEF5FB", "Bomb":"#343A3B", "Well":"#8AAAAF"};
     //var FloatingInSpace = {"Background":"#5D6F72", "Ship":"#80CCD8", "Enemy":"#CEF5FB", "Bomb":"#343A3B", "Well":"#8AAAAF"};
     
@@ -174,7 +179,18 @@ function gameObject(){
     //this.bulletManager = new bulletManager();
     //this.enemyManager = new enemyManager();
 
-    //Timers
+    this.loadSector = function(x, y){
+
+        this.currentSector = this.getSector(x, y);
+        if(this.currentSector == undefined){
+            this.currentSector = new worldSector(x, y, this.sectorWidth, this.sectorHeight);
+        }
+    }
+
+    this.getSector = function(x, y){
+        console.log((x+Math.floor(this.dimensions/2)) + " " + (y+Math.floor(this.dimensions/2)));
+        return this.sectors[x+Math.floor(this.dimensions/2)][y+Math.floor(this.dimensions/2)];        
+    }
     
     //Game Objects            
     this.meterTypes = {"Level":0};        
@@ -200,43 +216,36 @@ function gameObject(){
 
         }
 
-
-
-        this.currentSector.pillars.push(new pillar(70, 40, 5, 100, 0));
-        this.currentSector.pillars.push(new pillar(-70, 40, 5, 100, 0));
-
-        this.currentSector.pillars.push(new pillar(90, 40, 5, 100, 1));
-        this.currentSector.pillars.push(new pillar(-90, 40, 5, 100, 1));
-
         this.currentSector.enemyManager.addEnemy(new followBot(this.players[0].x + 30, this.players[0].y + 60, 1));
 
-        this.sectors[0][0] = new worldSector(0, 0);
-        this.sectors[0][1] = new worldSector(0, 1);
+        this.sectors[2][2] = new worldSector(0, 0, this.sectorWidth, this.sectorHeight);
+        this.sectors[2][3] = new worldSector(0, 1, this.sectorWidth, this.sectorHeight);
+
+        this.sectors[2][2].pillars.push(new pillar(20, -100, 100, 100, -1));                
+
+        this.sectors[2][2].pillars.push(new pillar(70, 40, 5, 100, 0));        
+        this.sectors[2][2].pillars.push(new pillar(-70, 40, 5, 100, 0));
+
+        this.sectors[2][2].pillars.push(new pillar(90, 40, 5, 100, 1));
+        this.sectors[2][2].pillars.push(new pillar(-90, 40, 5, 100, 1));
+
+        this.sectors[2][2].enemyManager.addEnemy(new followBot(- 30, this.players[0].y + 60, 1));
+        this.sectors[2][2].enemyManager.addEnemy(new followBot( - 10, this.players[0].y + 60, 1));
+        this.sectors[2][2].enemyManager.addEnemy(new followBot(20, this.players[0].y + 60, 1));
 
 
-        this.sectors[0][0].pillars.push(new pillar(70, 40, 5, 100, 0));
-        this.sectors[0][0].pillars.push(new pillar(-70, 40, 5, 100, 0));
+        this.sectors[2][3].pillars.push(new pillar(70, 440, 5, 100, 0));
+        this.sectors[2][3].pillars.push(new pillar(-70, 440, 5, 100, 0));
 
-        this.sectors[0][0].pillars.push(new pillar(90, 40, 5, 100, 1));
-        this.sectors[0][0].pillars.push(new pillar(-90, 40, 5, 100, 1));
+        this.sectors[2][3].pillars.push(new pillar(90, 440, 5, 100, 1));
+        this.sectors[2][3].pillars.push(new pillar(-90, 440, 5, 100, 1));
 
-        this.sectors[0][0].enemyManager.addEnemy(new followBot(- 30, this.players[0].y + 60, 1));
-        this.sectors[0][0].enemyManager.addEnemy(new followBot( - 10, this.players[0].y + 60, 1));
-        this.sectors[0][0].enemyManager.addEnemy(new followBot(20, this.players[0].y + 60, 1));
-
-
-        this.sectors[0][1].pillars.push(new pillar(70, 440, 5, 100, 0));
-        this.sectors[0][1].pillars.push(new pillar(-70, 440, 5, 100, 0));
-
-        this.sectors[0][1].pillars.push(new pillar(90, 440, 5, 100, 1));
-        this.sectors[0][1].pillars.push(new pillar(-90, 440, 5, 100, 1));
-
-        this.sectors[0][1].enemyManager.addEnemy(new followBot(30, 460, 0));
-        this.sectors[0][1].enemyManager.addEnemy(new followBot(70, 460, 0));
-        this.sectors[0][1].enemyManager.addEnemy(new followBot(-10, 460, 0));
+        this.sectors[2][3].enemyManager.addEnemy(new followBot(30, 460, 0));
+        this.sectors[2][3].enemyManager.addEnemy(new followBot(70, 460, 0));
+        this.sectors[2][3].enemyManager.addEnemy(new followBot(-10, 460, 0));
 
 
-        this.currentSector = this.sectors[0][0];
+        this.currentSector = this.sectors[2][2];
 
         // this.currentSector.enemyManager.addEnemy(new followBot(this.players[0].x + 10, this.players[0].y + 60, 1));
         // this.currentSector.enemyManager.addEnemy(new followBot(this.players[0].x - 40, this.players[0].y + 60, 1, 0));
