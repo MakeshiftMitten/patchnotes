@@ -10,6 +10,10 @@ function pillar(x, y, width, height, elevation){
     this.top = function(){return this.y + this.height/2};
     this.bottom = function(){return this.y - this.height/2};
 
+    this.update = function(dt){
+
+    }
+
 
 	this.draw = function(){
 		if(this.elevation	 == 1){

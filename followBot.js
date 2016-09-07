@@ -84,7 +84,7 @@ function followBot(x, y, shotElevation){
 		//  	var angle = toDeg(Math.atan(slopeToPlayer)) + 180;
 		
 		var pushBullet = new bullet(this.x + 15*Math.cos(toRad(angle)), this.y + 15*Math.sin(toRad(angle)), angle, 30, 1, this.shotElevation);  //*Math.sin(angle), 
-        game.bulletManager.addBullet(pushBullet);
+        game.currentSector.bulletManager.addBullet(pushBullet);
 	}
 
 	this.draw = function(){

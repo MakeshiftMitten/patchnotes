@@ -13,32 +13,39 @@ function drawCameraCentricObject(cameraX, cameraY){
             
             this.drawGrid();
 
-            
+            // for(var b = 0; b < game.currentSector.coordinates.length; b++){
+            //     game.coordinates[b].draw();
+            // }
 
-            for(var b = 0; b < game.boxes.length; b++){
-                game.boxes[b].draw();
+            for(var p = 0; p < game.currentSector.pillars.length; p++){                
+                game.currentSector.pillars[p].draw();
             }
+
+            game.currentSector.bulletManager.draw();
+
+            game.currentSector.enemyManager.draw();
+
 
             for(var b = 0; b < game.coordinates.length; b++){
                 game.coordinates[b].draw();
             }
 
-            for(var p = 0; p < game.pillars.length; p++){                
-                game.pillars[p].draw();
-            }
+            // for(var p = 0; p < game.pillars.length; p++){                
+            //     game.pillars[p].draw();
+            // }
 
-            for(var b = 0; b < game.streamers.length; b++){
-                game.streamers[b].draw();
-            }
+            // for(var b = 0; b < game.streamers.length; b++){
+            //     game.streamers[b].draw();
+            // }
 
             for(var p = 0; p < game.players.length; p++){                
                 game.players[p].draw();
             }
 
 
-            game.bulletManager.draw();
+            // game.bulletManager.draw();
 
-            game.enemyManager.draw();
+            // game.enemyManager.draw();
 
 
             ctx.stroke();    

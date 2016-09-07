@@ -75,6 +75,7 @@ function player(x, y){
 
         if(this.currentLife <= 0){
             this.isAlive = false;
+            this.shoot("DEATH");
         }
         else{
             //Update Cooldowns
@@ -125,7 +126,7 @@ function player(x, y){
                 if(game.keys[game.KeyBinds.Ship.SHOOT]){
                     if(this.shotCooldownCurrent <= 0)
                     //console.log("shoot");
-                        this.shoot();
+                        this.shoot(this.shotType);
                 }
 
                 this.velStrafe/= 1.3;
@@ -164,7 +165,7 @@ function player(x, y){
                 if(game.keys[game.KeyBinds.Bot.SHOOT]){
                     if(this.shotCooldownCurrent <= 0)
                     //console.log("shoot");
-                        this.shoot();
+                        this.shoot(this.shotType);
                 }
 
                  //A
@@ -207,7 +208,7 @@ function player(x, y){
 
                 this.heading = this.orientation;
             }
-        }
+        
         
 
 
@@ -224,12 +225,13 @@ function player(x, y){
         this.y += this.velocity * Math.sin(toRad(this.heading))*dt + this.velStrafe * Math.sin(toRad(this.heading - 90))*dt;  
 
         //Wall Hit Detection
-        for(var p = 0; p < game.pillars.length; p++){
-            var pillar = game.pillars[p];
+        for(var p = 0; p < game.currentSector.pillars.length; p++){
+            var pillar = game.currentSector.pillars[p];
 
             if(pointInRectangle(this, pillar)){
                 if(this.state == "ship"){
                     if(pillar.elevation == 1){
+                        this.currentLife -= this.maxLife;
                         this.isAlive = false;
                     }
                 }
@@ -243,7 +245,7 @@ function player(x, y){
             }
         }
         
-
+        }
         
     }
     
@@ -251,20 +253,27 @@ function player(x, y){
         
     }
 
-    this.shoot = function(){    
+    this.shoot = function(shotType){    
 
-        if(this.shotType == "SHOTGUN"){
-            game.bulletManager.addBullet(new bullet(this.x, this.y, this.orientation, 100, .4, 0, true));
-            game.bulletManager.addBullet(new bullet(this.x, this.y, this.orientation-3, 100, .4, 0, true));
-            game.bulletManager.addBullet(new bullet(this.x, this.y, this.orientation+3, 100, .4, 0, true));
-            game.bulletManager.addBullet(new bullet(this.x, this.y, this.orientation-7, 100, .4, 0, true));
-            game.bulletManager.addBullet(new bullet(this.x, this.y, this.orientation+7, 100, .4, 0, true));
+        if(shotType == "SHOTGUN"){
+            game.currentSector.bulletManager.addBullet(new bullet(this.x, this.y, this.orientation, 100, .4, 0, true));
+            game.currentSector.bulletManager.addBullet(new bullet(this.x, this.y, this.orientation-3, 100, .4, 0, true));
+            game.currentSector.bulletManager.addBullet(new bullet(this.x, this.y, this.orientation+3, 100, .4, 0, true));
+            game.currentSector.bulletManager.addBullet(new bullet(this.x, this.y, this.orientation-7, 100, .4, 0, true));
+            game.currentSector.bulletManager.addBullet(new bullet(this.x, this.y, this.orientation+7, 100, .4, 0, true));
             this.shotCooldownCurrent = this.shotCooldown*2;
         }
-        else if(this.shotType == "MACHINEGUN"){
+        else if(shotType == "MACHINEGUN"){
             var pushBullet = new bullet(this.x, this.y, this.orientation, 100, 1, 1, true);
-            game.bulletManager.addBullet(pushBullet);
+            game.currentSector.bulletManager.addBullet(pushBullet);
             this.shotCooldownCurrent  = this.shotCooldown/2;
+        }
+        else if(shotType == "DEATH"){
+            game.currentSector.bulletManager.addBullet(new bullet(this.x, this.y, this.orientation+45, 100, .4, 2, true));
+            game.currentSector.bulletManager.addBullet(new bullet(this.x, this.y, this.orientation+45*2, 100, .4, 2, true));
+            game.currentSector.bulletManager.addBullet(new bullet(this.x, this.y, this.orientation+45*3, 100, .4, 2, true));
+            game.currentSector.bulletManager.addBullet(new bullet(this.x, this.y, this.orientation+45*4, 100, .4, 2, true));
+            game.currentSector.bulletManager.addBullet(new bullet(this.x, this.y, this.orientation+45*5, 100, .4, 2, true));
         }
 
 

@@ -131,33 +131,18 @@ function gameObject(){
     }
 
     this.updateGame = function(dt){
+
+        for(var p = 0; p < game.players.length; p++){
+            game.players[p].update(dt);
+        } 
+
+        this.currentSector.update(dt);
+
             // if(game.keys[82]){
         // console.log("new!");
         // game = new gameObject();
         // game.init();
         // }
-
-
-        //Example of update loop
-        for(var p = 0; p < game.players.length; p++){
-            game.players[p].update(dt);
-        } 
-
-        for(var b = 0; b < game.boxes.length; b++){
-            game.boxes[b].update(dt);
-        }
-
-        for(var c = 0; c < game.coordinates.length; c++){
-            game.coordinates[c].update(dt);
-        }
-
-        for(var c = 0; c < game.streamers.length; c++){
-            game.streamers[c].update(dt);
-        }
-
-        game.bulletManager.update(dt);
-
-        game.enemyManager.update(dt);
     }
            
         
@@ -174,20 +159,19 @@ function gameObject(){
     this.keys = [];
     this.buttons = [];
     this.meters = [];
-    
-    this.pillars = [];
+
     this.players = [];
     this.boxes = [];
     this.coordinates = [];
-    this.bullets = [];
-    this.followBots = [];
+
+    this.currentSector = new worldSector(0, 0);
 
     this.streamers = [];
 
     this.drawType = "player";
 
-    this.bulletManager = new bulletManager();
-    this.enemyManager = new enemyManager();
+    //this.bulletManager = new bulletManager();
+    //this.enemyManager = new enemyManager();
 
     //Timers
     
@@ -207,23 +191,23 @@ function gameObject(){
             this.coordinates.push(new coordinate(x, -x));
         }
 
-        
+                
 
-        this.pillars.push(new pillar(70, 40, 5, 100, 0));
-        this.pillars.push(new pillar(-70, 40, 5, 100, 0));
+        this.currentSector.pillars.push(new pillar(70, 40, 5, 100, 0));
+        this.currentSector.pillars.push(new pillar(-70, 40, 5, 100, 0));
 
-        this.pillars.push(new pillar(90, 40, 5, 100, 1));
-        this.pillars.push(new pillar(-90, 40, 5, 100, 1));
+        this.currentSector.pillars.push(new pillar(90, 40, 5, 100, 1));
+        this.currentSector.pillars.push(new pillar(-90, 40, 5, 100, 1));
 
-        this.enemyManager.addEnemy(new followBot(this.players[0].x + 30, this.players[0].y + 60, 1));
-        this.enemyManager.addEnemy(new followBot(this.players[0].x + 10, this.players[0].y + 60, 1));
-        this.enemyManager.addEnemy(new followBot(this.players[0].x - 40, this.players[0].y + 60, 1, 0));
-        this.enemyManager.addEnemy(new followBot(this.players[0].x - 20, this.players[0].y + 60, 1));
+        this.currentSector.enemyManager.addEnemy(new followBot(this.players[0].x + 30, this.players[0].y + 60, 1));
+        // this.currentSector.enemyManager.addEnemy(new followBot(this.players[0].x + 10, this.players[0].y + 60, 1));
+        // this.currentSector.enemyManager.addEnemy(new followBot(this.players[0].x - 40, this.players[0].y + 60, 1, 0));
+        // this.currentSector.enemyManager.addEnemy(new followBot(this.players[0].x - 20, this.players[0].y + 60, 1));
 
-        this.enemyManager.addEnemy(new followBot(this.players[0].x + 30, this.players[0].y - 60, 0));
-        this.enemyManager.addEnemy(new followBot(this.players[0].x + 10, this.players[0].y - 60, 0));
-        this.enemyManager.addEnemy(new followBot(this.players[0].x - 40, this.players[0].y - 60, 0));
-        this.enemyManager.addEnemy(new followBot(this.players[0].x - 20, this.players[0].y - 60, 0));
+        // this.currentSector.enemyManager.addEnemy(new followBot(this.players[0].x + 30, this.players[0].y - 60, 0));
+        // this.currentSector.enemyManager.addEnemy(new followBot(this.players[0].x + 10, this.players[0].y - 60, 0));
+        // this.currentSector.enemyManager.addEnemy(new followBot(this.players[0].x - 40, this.players[0].y - 60, 0));
+        // this.currentSector.enemyManager.addEnemy(new followBot(this.players[0].x - 20, this.players[0].y - 60, 0));
 
         //this.followBots.push(new followBot(10, 10));
 

@@ -17,27 +17,27 @@ function bullet(x, y, orientation, velocity, lifeTime, elevation, safe){
 		this.y+= this.velocity*Math.sin(toRad(this.orientation))*dt;		
 
 		if(this.isActive){
-			for(var x = 0; x < game.enemyManager.enemies.length; x++)
+			for(var x = 0; x < game.currentSector.enemyManager.enemies.length; x++)
 			{
 				if(this.isActive)
 				{	
-					if(pointInRectangle(this, game.enemyManager.enemies[x])){
-						game.enemyManager.enemies[x].onHit(10);										
+					if(pointInRectangle(this, game.currentSector.enemyManager.enemies[x])){
+						game.currentSector.enemyManager.enemies[x].onHit(10);										
 						this.isActive = false;
 						}
 					}			
 			}
 
-			for(var x = 0; x < game.pillars.length; x++)
+			for(var x = 0; x < game.currentSector.pillars.length; x++)
 			{
 				{	
 			
-					if(pointInRectangle(this, game.pillars[x])){
+					if(pointInRectangle(this, game.currentSector.pillars[x])){
 						if(this.elevation == 0){
 							this.isActive = false;
 						}
 						else if(this.elevation == 1){
-							if(game.pillars[x].elevation == 1)
+							if(game.currentSector.pillars[x].elevation == 1)
 								this.isActive = false;
 						}
 					}
