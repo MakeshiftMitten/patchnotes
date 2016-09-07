@@ -244,9 +244,20 @@ function player(x, y){
                         this.y = oldY;
             }
         }
+
+        //console.log(this.getSector(oldX, oldY));
+        if(Math.floor((this.y+200)/400) != game.currentSector.y || Math.floor((this.x+200)/400) != game.currentSector.x)
+        {
+            console.log(this.getSector(this.x) + " " + this.getSector(this.y));
+            game.currentSector = game.sectors[Math.floor((this.x+200)/400)][Math.floor((this.y+200)/400)];
+        }
         
         }
         
+    }
+
+    this.getSector = function(x){
+        return Math.floor((x+200)/400);
     }
     
     this.updateState = function(dt){

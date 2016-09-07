@@ -145,7 +145,7 @@ function gameObject(){
         // }
     }
            
-        
+    
     //Physics Variables
     //this.gravity = 10;
     this.gravity = 0;
@@ -165,6 +165,7 @@ function gameObject(){
     this.coordinates = [];
 
     this.currentSector = new worldSector(0, 0);
+    this.sectors = [];
 
     this.streamers = [];
 
@@ -191,7 +192,15 @@ function gameObject(){
             this.coordinates.push(new coordinate(x, -x));
         }
 
-                
+        for(var x = 0; x < 5; x++){
+            this.sectors.push([]);
+            for(var y = 0; y < 5; y++){
+                this.sectors[x].push(undefined);
+            }
+
+        }
+
+
 
         this.currentSector.pillars.push(new pillar(70, 40, 5, 100, 0));
         this.currentSector.pillars.push(new pillar(-70, 40, 5, 100, 0));
@@ -200,6 +209,35 @@ function gameObject(){
         this.currentSector.pillars.push(new pillar(-90, 40, 5, 100, 1));
 
         this.currentSector.enemyManager.addEnemy(new followBot(this.players[0].x + 30, this.players[0].y + 60, 1));
+
+        this.sectors[0][0] = new worldSector(0, 0);
+        this.sectors[0][1] = new worldSector(0, 1);
+
+
+        this.sectors[0][0].pillars.push(new pillar(70, 40, 5, 100, 0));
+        this.sectors[0][0].pillars.push(new pillar(-70, 40, 5, 100, 0));
+
+        this.sectors[0][0].pillars.push(new pillar(90, 40, 5, 100, 1));
+        this.sectors[0][0].pillars.push(new pillar(-90, 40, 5, 100, 1));
+
+        this.sectors[0][0].enemyManager.addEnemy(new followBot(- 30, this.players[0].y + 60, 1));
+        this.sectors[0][0].enemyManager.addEnemy(new followBot( - 10, this.players[0].y + 60, 1));
+        this.sectors[0][0].enemyManager.addEnemy(new followBot(20, this.players[0].y + 60, 1));
+
+
+        this.sectors[0][1].pillars.push(new pillar(70, 440, 5, 100, 0));
+        this.sectors[0][1].pillars.push(new pillar(-70, 440, 5, 100, 0));
+
+        this.sectors[0][1].pillars.push(new pillar(90, 440, 5, 100, 1));
+        this.sectors[0][1].pillars.push(new pillar(-90, 440, 5, 100, 1));
+
+        this.sectors[0][1].enemyManager.addEnemy(new followBot(30, 460, 0));
+        this.sectors[0][1].enemyManager.addEnemy(new followBot(70, 460, 0));
+        this.sectors[0][1].enemyManager.addEnemy(new followBot(-10, 460, 0));
+
+
+        this.currentSector = this.sectors[0][0];
+
         // this.currentSector.enemyManager.addEnemy(new followBot(this.players[0].x + 10, this.players[0].y + 60, 1));
         // this.currentSector.enemyManager.addEnemy(new followBot(this.players[0].x - 40, this.players[0].y + 60, 1, 0));
         // this.currentSector.enemyManager.addEnemy(new followBot(this.players[0].x - 20, this.players[0].y + 60, 1));
@@ -219,6 +257,7 @@ function gameObject(){
         this.lastTime = Date.now();
         this.nowTime = this.lastTime;
     }
+    
     
     this.levelUp = function(){
         this.currentLevelTimer = 0;            

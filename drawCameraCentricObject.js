@@ -127,16 +127,19 @@ function drawCameraCentricObject(cameraX, cameraY){
         ctx.strokeStyle = "#00FF00";
         ctx.fillStyle = "#00FF00";
         //(text, gameXToCanvasX(gameX + game.gameWidth/2 - cameraX), gameYToCanvasY(-gameY + game.gameHeight/2 + cameraY))        ;
-        for(var x = -10; x < 11; x++)    
-        {
+
+        //horizontal lines
+        for(var x = -game.currentSector.height/40; x <= game.currentSector.height/40; x++){
             ctx.beginPath();
-            ctx.moveTo(gameXToCanvasX(-200 + game.gameWidth/2 - this.cameraX), gameYToCanvasY(x*20 + game.gameHeight/2 + this.cameraY));
-            ctx.lineTo(gameXToCanvasX(200 + game.gameWidth/2 - this.cameraX), gameYToCanvasY(x*20 + game.gameHeight/2 + this.cameraY));
+            ctx.moveTo(gameXToCanvasX(-game.currentSector.width/2 + game.gameWidth/2 - this.cameraX + 400*game.currentSector.x), gameYToCanvasY(x*20 + game.gameHeight/2 + this.cameraY - 400*game.currentSector.y));
+            ctx.lineTo(gameXToCanvasX(game.currentSector.width/2 + game.gameWidth/2 - this.cameraX + 400*game.currentSector.x), gameYToCanvasY(x*20 + game.gameHeight/2 + this.cameraY - 400*game.currentSector.y));
             ctx.stroke();
-            
+        }
+        //vertical lines
+        for(var x = -game.currentSector.width/40; x <= game.currentSector.width/40; x++){   
             ctx.beginPath();
-            ctx.moveTo(gameXToCanvasX(x*20 + game.gameWidth/2 - this.cameraX), gameYToCanvasY(-200 + game.gameHeight/2 + this.cameraY));
-            ctx.lineTo(gameXToCanvasX(x*20 + game.gameWidth/2 - this.cameraX), gameYToCanvasY(200 + game.gameHeight/2 + this.cameraY));
+            ctx.moveTo(gameXToCanvasX(x*20 + game.gameWidth/2 - this.cameraX + 400*game.currentSector.x), gameYToCanvasY(-game.currentSector.height/2 + game.gameHeight/2 + this.cameraY - 400*game.currentSector.y));
+            ctx.lineTo(gameXToCanvasX(x*20 + game.gameWidth/2 - this.cameraX + 400*game.currentSector.x), gameYToCanvasY(game.currentSector.height/2 + game.gameHeight/2 + this.cameraY - 400*game.currentSector.y));
             ctx.stroke();
         }
     }

@@ -1,8 +1,14 @@
 function worldSector(x, y){
 
+	this.x = x;
+	this.y = y;
+	
     this.pillars = [];
     this.bulletManager = new bulletManager();
-    this.enemyManager = new enemyManager();            
+    this.enemyManager = new enemyManager();           
+
+    this.height = 400;
+    this.width = 400; 
 
 	this.update = function(dt){
 		for(var x = 0; x < this.pillars.length; x++){
