@@ -13,10 +13,6 @@ function drawCameraCentricObject(cameraX, cameraY){
             
             this.drawGrid();
 
-            // for(var b = 0; b < game.currentSector.coordinates.length; b++){
-            //     game.coordinates[b].draw();
-            // }
-
             for(var p = 0; p < game.currentSector.pillars.length; p++){                
                 game.currentSector.pillars[p].draw();
             }
@@ -25,28 +21,13 @@ function drawCameraCentricObject(cameraX, cameraY){
 
             game.currentSector.enemyManager.draw();
 
-
             for(var b = 0; b < game.coordinates.length; b++){
                 game.coordinates[b].draw();
             }
 
-            // for(var p = 0; p < game.pillars.length; p++){                
-            //     game.pillars[p].draw();
-            // }
-
-            // for(var b = 0; b < game.streamers.length; b++){
-            //     game.streamers[b].draw();
-            // }
-
             for(var p = 0; p < game.players.length; p++){                
                 game.players[p].draw();
             }
-
-
-            // game.bulletManager.draw();
-
-            // game.enemyManager.draw();
-
 
             ctx.stroke();    
             ctx.closePath();
@@ -68,8 +49,7 @@ function drawCameraCentricObject(cameraX, cameraY){
         var gameCanvas = document.getElementById('gameCanvas');
         var ctx= gameCanvas.getContext("2d");        
 
-        //Bounding Rect    
-        console.log("controls");
+        //Bounding Rect            
         ctx.clearRect(0, 0, gameCanvas.width, gameCanvas.height); 
         draw.drawBackgroundRect(game.gameWidth/2, game.gameHeight/2, game.gameWidth, game.gameHeight, game.colors.Background);
 
@@ -111,14 +91,49 @@ function drawCameraCentricObject(cameraX, cameraY){
         var ctx= gameCanvas.getContext("2d");        
 
         //Bounding Rect    
-        console.log("controls");
+        console.log("equipment");
         ctx.clearRect(0, 0, gameCanvas.width, gameCanvas.height); 
-        draw.drawBackgroundRect(game.gameWidth/2, game.gameHeight/2, game.gameWidth, game.gameHeight, game.colors.Background);
-
-        for(var p = 0; p < game.pillars.length; p++){                
-                game.pillars[0].draw();
-        }
+        draw.drawBackgroundRect(game.gameWidth/2, game.gameHeight/2, game.gameWidth, game.gameHeight, game.colors.Background);     
     }
+
+    this.drawMapMenu = function()
+    {
+        var gameCanvas = document.getElementById('gameCanvas');
+        var ctx= gameCanvas.getContext("2d");        
+
+        this.cameraX = 0;
+        this.cameraY = 0;
+        //Bounding Rect            
+        ctx.clearRect(0, 0, gameCanvas.width, gameCanvas.height); 
+        draw.drawBackgroundRect(game.gameWidth/2, game.gameHeight/2, game.gameWidth, game.gameHeight, game.colors.Background);     
+
+        var selectedX = game.mapMenu.selectedSectionX//-Math.floor(game.dimensions/2);
+        var selectedY = game.mapMenu.selectedSectionY//-Math.floor(game.dimensions/2);
+        var currentSectorX = game.currentSector.x + Math.floor(game.dimensions/2);
+        var currentSectorY = game.currentSector.y + Math.floor(game.dimensions/2);
+
+        draw.drawRectCentered(selectedX*20-game.dimensions*10 , selectedY*20  -game.dimensions*10, 20, 20, "#FFFFFF", true);        
+        for(var x = 0; x < game.dimensions; x++){
+            for(var y = 0; y < game.dimensions; y++){                
+                var topColor = "#0000FF";
+                var innerColor = "#000088";
+                if(game.sectors[x][y] == undefined)
+                    var innerColor = "#444444";
+                if(game.selectedX == x && game.selectedY == y)
+                    var topColor = "#00FF00";
+                draw.drawRectCentered(x*20 -game.dimensions*10 , y*20 -game.dimensions*10, 18, 18, topColor , true);
+                draw.drawRectCentered(x*20 -game.dimensions*10 , y*20 -game.dimensions*10, 14, 14, innerColor, true);
+
+
+            }
+        }
+        
+
+        draw.drawRectCentered(currentSectorX*20-game.dimensions*10 , currentSectorY*20  -game.dimensions*10, 19, 19, "#00FF00", true);
+        draw.drawRectCentered(currentSectorX*20-game.dimensions*10 , currentSectorY*20  -game.dimensions*10, 14, 14, "#008800", true);
+    }
+
+
     
     this.drawGrid = function()
     {

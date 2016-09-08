@@ -42,6 +42,7 @@ function gameObject(){
     };
 
     this.controlsMenu = new controlsMenu();
+    this.mapMenu = new mapMenu();
 
     this.KeyBinds = stockKeyBinds;
 
@@ -82,6 +83,9 @@ function gameObject(){
       else if(this.screen =="EQUIP"){
         draw.drawEquipmentMenu();
       }
+      else if(this.screen =="MAP"){
+        draw.drawMapMenu();
+      }
 
     }
 
@@ -89,7 +93,7 @@ function gameObject(){
         this.menuTimer -= dt;
 
         //Handle Menu Switches
-        if(game.keys[77]){
+        if(game.keys[1]){
             if(this.menuTimer < 0){
                 if(this.screen == "MENU"){
                     this.screen = "GAME";
@@ -115,12 +119,29 @@ function gameObject(){
             }
         }
 
+        else if(game.keys[77]){
+            if(this.menuTimer < 0){
+                if(this.screen == "MAP"){
+                    this.screen = "GAME";    
+                    //this.mapMenu.load();            
+                }
+                else {
+                    this.screen = "MAP";                    
+                    //this.mapMenu.load(); 
+                }
+                this.menuTimer = this.menuTimerMax;
+            }
+        }
+
         //Handle Menu Updates
         if(this.screen == "GAME"){
             this.updateGame(dt);
         }
         else if(this.screen == "MENU"){    
             this.updateControlsMenu(dt);
+        }
+        else if(this.screen == "MAP"){
+            this.updateMapMenu(dt);
         }
         else if(this.screen == "EQUIP"){
             this.updateEquipmentMenu(dt);
@@ -129,6 +150,10 @@ function gameObject(){
 
     this.updateEquipmentMenu = function(dt){
 
+    }
+
+    this.updateMapMenu = function(dt){
+        this.mapMenu.update(dt);
     }
 
     this.updateControlsMenu = function(dt){
@@ -183,12 +208,13 @@ function gameObject(){
 
         this.currentSector = this.getSector(x, y);
         if(this.currentSector == undefined){
-            this.currentSector = new worldSector(x, y, this.sectorWidth, this.sectorHeight);
+            this.sectors[x+Math.floor(this.dimensions/2)][y+Math.floor(this.dimensions/2)] = 
+                    new worldSector(x, y, this.sectorWidth, this.sectorHeight);
+            this.currentSector = this.sectors[x+Math.floor(this.dimensions/2)][y+Math.floor(this.dimensions/2)];            
         }
     }
 
-    this.getSector = function(x, y){
-        console.log((x+Math.floor(this.dimensions/2)) + " " + (y+Math.floor(this.dimensions/2)));
+    this.getSector = function(x, y){        
         return this.sectors[x+Math.floor(this.dimensions/2)][y+Math.floor(this.dimensions/2)];        
     }
     
@@ -229,9 +255,9 @@ function gameObject(){
         this.sectors[2][2].pillars.push(new pillar(90, 40, 5, 100, 1));
         this.sectors[2][2].pillars.push(new pillar(-90, 40, 5, 100, 1));
 
-        this.sectors[2][2].enemyManager.addEnemy(new followBot(- 30, this.players[0].y + 60, 1));
-        this.sectors[2][2].enemyManager.addEnemy(new followBot( - 10, this.players[0].y + 60, 1));
-        this.sectors[2][2].enemyManager.addEnemy(new followBot(20, this.players[0].y + 60, 1));
+        this.sectors[2][2].enemyManager.addEnemy(new followBot(- 30, 160, 1));
+        this.sectors[2][2].enemyManager.addEnemy(new followBot( - 10, 160, 1));
+        this.sectors[2][2].enemyManager.addEnemy(new followBot(20, 160, 1));
 
 
         this.sectors[2][3].pillars.push(new pillar(70, 440, 5, 100, 0));
@@ -240,9 +266,9 @@ function gameObject(){
         this.sectors[2][3].pillars.push(new pillar(90, 440, 5, 100, 1));
         this.sectors[2][3].pillars.push(new pillar(-90, 440, 5, 100, 1));
 
-        this.sectors[2][3].enemyManager.addEnemy(new followBot(30, 460, 0));
-        this.sectors[2][3].enemyManager.addEnemy(new followBot(70, 460, 0));
-        this.sectors[2][3].enemyManager.addEnemy(new followBot(-10, 460, 0));
+        this.sectors[2][3].enemyManager.addEnemy(new followBot(30, 260, 0));
+        this.sectors[2][3].enemyManager.addEnemy(new followBot(70, 260, 0));
+        this.sectors[2][3].enemyManager.addEnemy(new followBot(-10, 260, 0));
 
 
         this.currentSector = this.sectors[2][2];
