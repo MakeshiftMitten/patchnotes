@@ -42,7 +42,7 @@ function mapMenu(){
           this.currentSwitchTimer = this.switchTimer;
         }
         else if(game.keys[13]){          
-          if(game.getSector(this.selectedSectionX - Math.floor(game.dimensions/2), this.selectedSectionY - Math.floor(game.dimensions/2)) != undefined){
+          if(game.getSector(this.selectedSectionX - Math.floor(game.dimensions/2), this.selectedSectionY - Math.floor(game.dimensions/2)) != undefined && game.getSector(this.selectedSectionX - Math.floor(game.dimensions/2), this.selectedSectionY - Math.floor(game.dimensions/2)).level == 0){
             game.currentSector = game.getSector(this.selectedSectionX - Math.floor(game.dimensions/2), this.selectedSectionY - Math.floor(game.dimensions/2));
             //game.loadSector(this.selectedSectionX - Math.floor(game.dimensions/2), this.selectedSectionY - Math.floor(game.dimensions/2));
             game.players[0].x = (game.currentSector.x*400);

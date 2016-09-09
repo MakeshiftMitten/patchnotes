@@ -208,6 +208,10 @@ function player(x, y){
                 else
                     this.velocity/=1.1;
 
+                if(this.orientation < 0)
+                    this.orientation += 360;
+                else if(this.orientation > 360)
+                    this.orientation -= 360;
                 this.heading = this.orientation;
             }
         

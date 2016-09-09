@@ -1,4 +1,4 @@
-function bullet(x, y, orientation, velocity, lifeTime, elevation, safe){	
+function bullet(x, y, orientation, velocity, lifeTime, elevation, playerSafe, enemySafe){	
 	this.x = x;
 	this.y = y;
 
@@ -8,7 +8,9 @@ function bullet(x, y, orientation, velocity, lifeTime, elevation, safe){
 	this.elevation = elevation;
 	this.lifeTime = lifeTime;
 	this.currentTime = 0;
-	this.safe = safe;
+	this.playerSafe = playerSafe;
+	this.enemySafe = enemySafe;
+
 
 	this.isActive = true;
 
@@ -47,7 +49,7 @@ function bullet(x, y, orientation, velocity, lifeTime, elevation, safe){
 			for(var x = 0; x < game.players.length; x++)
 			{
 				{	
-					if(!this.safe){
+					if(!this.playerSafe){
 						if(pointInRectangle(this, game.players[x])){
 							if(this.elevation == 0){
 								if(game.players[x].getElevation() == 0){

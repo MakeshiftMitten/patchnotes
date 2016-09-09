@@ -86,6 +86,9 @@ function gameObject(){
       else if(this.screen =="MAP"){
         draw.drawMapMenu();
       }
+      else if(this.screen =="TITLE"){
+        draw.drawTitleMenu();
+      }
 
     }
 
@@ -146,6 +149,9 @@ function gameObject(){
         else if(this.screen == "EQUIP"){
             this.updateEquipmentMenu(dt);
         }
+        else if(this.screen == "TITLE"){
+            this.updateTitleMenu(dt);
+        }
     }    
 
     this.updateEquipmentMenu = function(dt){
@@ -158,6 +164,10 @@ function gameObject(){
 
     this.updateControlsMenu = function(dt){
         this.controlsMenu.update(dt);
+    }
+
+    this.updateTitleMenu = function(dt){
+        this.titleMenu.update(dt);
     }
 
     this.updateGame = function(dt){
@@ -255,9 +265,9 @@ function gameObject(){
         this.sectors[2][2].pillars.push(new pillar(90, 40, 5, 100, 1));
         this.sectors[2][2].pillars.push(new pillar(-90, 40, 5, 100, 1));
 
-        this.sectors[2][2].enemyManager.addEnemy(new followBot(- 30, 160, 1));
-        this.sectors[2][2].enemyManager.addEnemy(new followBot( - 10, 160, 1));
-        this.sectors[2][2].enemyManager.addEnemy(new followBot(20, 160, 1));
+        this.sectors[2][2].enemyManager.addEnemy(new followBot(- 30, 160, 1, "ROCKET"));
+        this.sectors[2][2].enemyManager.addEnemy(new followBot( - 10, 160, 1, "BULLET"));
+        this.sectors[2][2].enemyManager.addEnemy(new followBot(20, 160, 1, "BULLET"));
 
 
         this.sectors[2][3].pillars.push(new pillar(70, 440, 5, 100, 0));
@@ -266,9 +276,7 @@ function gameObject(){
         this.sectors[2][3].pillars.push(new pillar(90, 440, 5, 100, 1));
         this.sectors[2][3].pillars.push(new pillar(-90, 440, 5, 100, 1));
 
-        this.sectors[2][3].enemyManager.addEnemy(new followBot(30, 260, 0));
-        this.sectors[2][3].enemyManager.addEnemy(new followBot(70, 260, 0));
-        this.sectors[2][3].enemyManager.addEnemy(new followBot(-10, 260, 0));
+        this.sectors[2][3].enemyManager.addEnemy(new chaseBot(-10, 260, 0, "BULLET"));
 
 
         this.currentSector = this.sectors[2][2];

@@ -112,15 +112,22 @@ function drawCameraCentricObject(cameraX, cameraY){
         var currentSectorX = game.currentSector.x + Math.floor(game.dimensions/2);
         var currentSectorY = game.currentSector.y + Math.floor(game.dimensions/2);
 
-        draw.drawRectCentered(selectedX*20-game.dimensions*10 , selectedY*20  -game.dimensions*10, 20, 20, "#FFFFFF", true);        
+        draw.drawRectCentered(selectedX*20-game.dimensions*10 , selectedY*20  -game.dimensions*10, 20, 20, "#FFFFFF", true);    
+        var innerColor = "#000000";    
+        var innerColor = "#000000";
+        draw.drawRectCentered(currentSectorX*20-game.dimensions*10 , currentSectorY*20  -game.dimensions*10, 19, 19, "#00FF00", true);
         for(var x = 0; x < game.dimensions; x++){
             for(var y = 0; y < game.dimensions; y++){                
-                var topColor = "#0000FF";
-                var innerColor = "#000088";
+                topColor = "#0000FF";
+                innerColor = "#000088";
                 if(game.sectors[x][y] == undefined)
-                    var innerColor = "#444444";
+                    innerColor = "#444444";
+                else if(game.sectors[x][y].level > 0){
+                    topColor = "#FF0000";
+                    innerColor = "#880000";
+                }
                 if(game.selectedX == x && game.selectedY == y)
-                    var topColor = "#00FF00";
+                    topColor = "#00FF00";
                 draw.drawRectCentered(x*20 -game.dimensions*10 , y*20 -game.dimensions*10, 18, 18, topColor , true);
                 draw.drawRectCentered(x*20 -game.dimensions*10 , y*20 -game.dimensions*10, 14, 14, innerColor, true);
 
@@ -129,8 +136,8 @@ function drawCameraCentricObject(cameraX, cameraY){
         }
         
 
-        draw.drawRectCentered(currentSectorX*20-game.dimensions*10 , currentSectorY*20  -game.dimensions*10, 19, 19, "#00FF00", true);
-        draw.drawRectCentered(currentSectorX*20-game.dimensions*10 , currentSectorY*20  -game.dimensions*10, 14, 14, "#008800", true);
+        
+        //draw.drawRectCentered(currentSectorX*20-game.dimensions*10 , currentSectorY*20  -game.dimensions*10, 14, 14, innerColor, true);
     }
 
 
@@ -214,6 +221,25 @@ function drawCameraCentricObject(cameraX, cameraY){
         var gameCanvas = document.getElementById('gameCanvas');
         var ctx= gameCanvas.getContext("2d");   
         ctx.save();
+        ctx.beginPath();
+        ctx.fillStyle = color;
+        ctx.rect(gameXToCanvasX(gameX - gameWidth/2 + game.gameWidth/2 - this.cameraX), gameYToCanvasY(-gameY - gameHeight/2 + game.gameHeight/2 + this.cameraY), gameXToCanvasX(gameWidth), gameYToCanvasY(gameHeight));
+        ctx.stroke();
+        if(fill)
+            ctx.fill();
+        ctx.closePath();
+        ctx.restore();
+    }
+
+    this.drawRectRotatedCentered = function(gameX, gameY, gameWidth, gameHeight, orientation, color, fill)
+    {
+        
+        var gameCanvas = document.getElementById('gameCanvas');
+        var ctx= gameCanvas.getContext("2d");   
+        ctx.save();
+        ctx.translate(gameXToCanvasX(gameX + game.gameWidth/2 - this.cameraX ), gameYToCanvasY(- gameY + game.gameHeight/2 + this.cameraY));
+        ctx.rotate(toRad(-orientation+90));
+        ctx.translate(gameXToCanvasX(-gameX - game.gameWidth/2 + this.cameraX ), gameYToCanvasY(gameY - game.gameHeight/2 - this.cameraY));
         ctx.beginPath();
         ctx.fillStyle = color;
         ctx.rect(gameXToCanvasX(gameX - gameWidth/2 + game.gameWidth/2 - this.cameraX), gameYToCanvasY(-gameY - gameHeight/2 + game.gameHeight/2 + this.cameraY), gameXToCanvasX(gameWidth), gameYToCanvasY(gameHeight));
