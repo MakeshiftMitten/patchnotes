@@ -288,7 +288,7 @@ function drawCameraCentricObject(cameraX, cameraY){
         ctx.translate(gameXToCanvasX(gameX + game.gameWidth/2 - this.cameraX ), gameYToCanvasY(-gameY + game.gameHeight/2 + this.cameraY));
         ctx.rotate(toRad((-orientation-90)));
         //ctx.beginPath();
-        if(ship.state=="ship"){
+
             ctx.beginPath();
                 ctx.moveTo(gameXToCanvasX(0),gameYToCanvasY(-2));
                 ctx.lineTo(gameXToCanvasX(-.5), gameYToCanvasY(2));
@@ -308,14 +308,8 @@ function drawCameraCentricObject(cameraX, cameraY){
                 ctx.stroke();
             ctx.closePath();
 
-        }
-        if(ship.state=="bot"){
-            ctx.rect(gameXToCanvasX(-ship.width/2 - ship.width), gameYToCanvasY(-ship.height/2), gameXToCanvasX(gameWidth/2), gameYToCanvasY(gameHeight));
-            ctx.rect(gameXToCanvasX(ship.width), gameYToCanvasY(-ship.height/2), gameXToCanvasX(gameWidth/2), gameYToCanvasY(gameHeight));
-            ctx.rect(gameXToCanvasX(-ship.height/2), gameYToCanvasY(ship.height/8), gameXToCanvasX(ship.height), gameYToCanvasY(ship.width/2));
-            ctx.strokeStyle = "#FF0000";
-            ctx.fill();
-        }
+
+
         //ctx.closePath();
         ctx.restore();
 

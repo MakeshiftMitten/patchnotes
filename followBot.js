@@ -1,4 +1,4 @@
-function followBot(x, y, shotElevation, weapon, boss = false){	
+function followBot(x, y, shotElevation, weapon, boss){	
 	this.x = x;
 	this.y = y;
 
