@@ -38,6 +38,48 @@ function drawCameraCentricObject(cameraX, cameraY){
             draw.drawInfoText(10, 12, "Sector: " + game.currentSector.x + " , " + game.currentSector.y);
             draw.drawInfoText(10, 9, "Level: " + game.currentSector.level);
             draw.drawInfoText(10, 6, "Enemies: " + game.currentSector.enemyManager.enemies.length);
+            draw.drawInfoText(10, 3, "Bosses Left: " + game.bossRoomCount);
+
+            draw.drawInfoText(40, 15, "Controls: ");
+            draw.drawInfoText(40, 12, "Move(Ship): WASD");
+            draw.drawInfoText(40, 9,  "Move(Bot): WASD + J/L");
+            draw.drawInfoText(40, 6,  "Shoot: I Secondary: K ");
+            draw.drawInfoText(40, 3,  "Transform: Space");
+
+            draw.drawInfoText(80, 15, "Controls: ");
+            draw.drawInfoText(80, 12, "Special Move: Shift");
+            draw.drawInfoText(80, 9,  "Map: M");
+
+            draw.drawText(50, -25, "Fly Over Low(Dark) Pillars");
+            draw.drawText(80, 0, "Crash into high ones as a plane :(");
+
+            draw.drawText(-90, -25, "Transform(Space) to ground mode to use both as cover!");
+            draw.drawText(-90, -55, "Fly over unpatched nodes, but don't try to ride across them as a bot!");
+
+            draw.drawText(-20, -10, "If you die, you will respawn here!");
+
+
+            draw.drawText(-20, 10, "Dodge bright bullets!");
+
+            draw.drawText(-20, 40, "Fly over dark bullets as a plane  or dodge them as the walker!");
+
+
+            draw.drawText(-20, 62, "I for primary weapon, K for secondary!");
+
+            draw.drawText(-40, 82, "Press shift to access your special!");
+
+            draw.drawText(-40, 100, "Take out all enemies in a zone to make it safe!");
+
+            draw.drawText(-40, 220, "Once a zone is clear, you can teleport to it by accessing the map(m), selecting a blue zone, and pressing enter!");
+
+            draw.drawText(-40, 240, "Clear the four bosses, located at 1:1, 1:-1, -1:1, and -1:-1 to beat the game!");
+
+
+
+
+
+            
+
 
 
             ctx.closePath();
@@ -221,6 +263,58 @@ function drawCameraCentricObject(cameraX, cameraY){
             ctx.rect(gameXToCanvasX(ship.width), gameYToCanvasY(-ship.height/2), gameXToCanvasX(gameWidth/2), gameYToCanvasY(gameHeight));
             ctx.rect(gameXToCanvasX(-ship.height/2), gameYToCanvasY(ship.height/8), gameXToCanvasX(ship.height), gameYToCanvasY(ship.width/2));
             ctx.strokeStyle = "#00AAAA";
+            ctx.fill();
+        }
+        //ctx.closePath();
+        ctx.restore();
+
+
+        //ctx.stroke();
+
+
+    }
+
+        this.drawChaseBot = function(gameX, gameY, gameWidth, gameHeight, orientation)
+    {
+        var gameCanvas = document.getElementById('gameCanvas');
+        var ctx= game.ctx;// gameCanvas.getContext("2d");   
+        var ship = game.players[0];
+        ctx.save();
+
+
+        ctx.fillStyle = "#FF0000";
+        ctx.strokeStyle = "#FF0000";
+        ctx.style = "#FF0000";        
+
+        ctx.translate(gameXToCanvasX(gameX + game.gameWidth/2 - this.cameraX ), gameYToCanvasY(-gameY + game.gameHeight/2 + this.cameraY));
+        ctx.rotate(toRad((-orientation-90)));
+        //ctx.beginPath();
+        if(ship.state=="ship"){
+            ctx.beginPath();
+                ctx.moveTo(gameXToCanvasX(0),gameYToCanvasY(-2));
+                ctx.lineTo(gameXToCanvasX(-.5), gameYToCanvasY(2));
+                ctx.lineTo(gameXToCanvasX(.5),gameYToCanvasY(2));
+                ctx.strokeStyle = "#FF0000";
+                ctx.stroke();
+                ctx.fill();
+            ctx.closePath();
+
+
+            ctx.beginPath();
+                ctx.moveTo(gameXToCanvasX(0),gameYToCanvasY(-1));
+                ctx.lineTo(gameXToCanvasX(-1), gameYToCanvasY(1));
+                ctx.lineTo(gameXToCanvasX(1),gameYToCanvasY(1));
+                ctx.fill();
+                ctx.strokeStyle = "#FF0000";
+                ctx.stroke();
+            ctx.closePath();
+
+        }
+        if(ship.state=="bot"){
+            ctx.rect(gameXToCanvasX(-ship.width/2 - ship.width), gameYToCanvasY(-ship.height/2), gameXToCanvasX(gameWidth/2), gameYToCanvasY(gameHeight));
+            ctx.rect(gameXToCanvasX(ship.width), gameYToCanvasY(-ship.height/2), gameXToCanvasX(gameWidth/2), gameYToCanvasY(gameHeight));
+            ctx.rect(gameXToCanvasX(-ship.height/2), gameYToCanvasY(ship.height/8), gameXToCanvasX(ship.height), gameYToCanvasY(ship.width/2));
+            ctx.strokeStyle = "#FF0000";
             ctx.fill();
         }
         //ctx.closePath();

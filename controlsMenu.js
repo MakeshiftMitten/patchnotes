@@ -19,10 +19,10 @@ function controlsMenu(){
       Bot: {
         ACCEL : 87,
         DECEL : 83,
-        TURNLEFT : 65,
-        TURNRIGHT : 68,
-        STRAFELEFT : 74,
-        STRAFERIGHT : 76,
+        TURNLEFT : 74,
+        TURNRIGHT : 76,
+        STRAFELEFT : 65,
+        STRAFERIGHT : 68,
         SHOOT : 73,
         SPECIAL : 16
       }

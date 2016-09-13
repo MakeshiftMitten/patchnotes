@@ -1,4 +1,4 @@
-function chaseBot(x, y, shotElevation, weapon){	
+function chaseBoss(x, y, shotElevation, weapon){	
 	this.x = x;
 	this.y = y;
 
@@ -12,7 +12,7 @@ function chaseBot(x, y, shotElevation, weapon){
 	this.velocity = 45;
 
 	this.maxHealth = 100;
-	this.health = 100;
+	this.health = 1000;
 	
 	this.shotElevation = shotElevation;
 	this.weapon = weapon;
@@ -23,7 +23,7 @@ function chaseBot(x, y, shotElevation, weapon){
 	this.switchTime = 3;
 	this.currentSwitchTime = 0;
 
-	this.shotTime = 1;
+	this.shotTime = .2;
 	this.currentShotTime = 0;
 
 	this.target = game.players[0];
@@ -38,10 +38,10 @@ function chaseBot(x, y, shotElevation, weapon){
 
 		
 		this.currentShotTime += dt;
-		if(this.currentShotTime > this.shotTime){
-			this.shoot();
-			this.currentShotTime = 0;
-		}
+		// if(this.currentShotTime > this.shotTime){
+		// 	this.shoot();
+		// 	this.currentShotTime = 0;
+		// }
 		this.currentSwitchTime +=dt;
 		if(this.currentSwitchTime > this.switchTime){
 			if(this.movementState == "FOLLOW")
@@ -61,7 +61,7 @@ function chaseBot(x, y, shotElevation, weapon){
 		// var rise = this.target.y - this.y;
 		// var run = this.target.x - this.x
 
-
+		this.shoot();
 
 		var rise = this.target.y - this.y;
 		var run = this.target.x - this.x
@@ -115,6 +115,12 @@ function chaseBot(x, y, shotElevation, weapon){
 
 		this.orientation += 180; 
 
+		if(this.currentShotTime > this.shotTime){
+			game.currentSector.bulletManager.addBullet(new bomb(this.x, this.y, this.orientation, this.velocity/2, 1, "EXPLODE", false, false, "#00AAAA"));
+			this.currentShotTime = 0;
+		}
+
+		
 
 		var oldX = this.x;
 		var oldY = this.y;
@@ -163,9 +169,9 @@ function chaseBot(x, y, shotElevation, weapon){
 
 		if( run < 0)
 			angle += 180;
-		if(this.weapon == "ROCKET")
+	
 			var pushBullet = new rocket(this.x + 15*Math.cos(toRad(angle)), this.y + 15*Math.sin(toRad(angle)), angle, 20, 4, this.shotElevation, false, true, "#FF0000");  //*Math.sin(angle), 
-		else if (this.weapon == "BULLET")
+		
 			var pushBullet = new bullet(this.x + 15*Math.cos(toRad(angle)), this.y + 15*Math.sin(toRad(angle)), angle, 25, 3, this.shotElevation,  false, true, "#FF0000");  //*Math.sin(angle), 
         game.currentSector.bulletManager.addBullet(pushBullet);
 	}

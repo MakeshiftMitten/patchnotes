@@ -31,8 +31,10 @@ function bullet(x, y, orientation, velocity, lifeTime, elevation, playerSafe, en
 				if(this.isActive)
 				{	
 					if(pointInRectangle(this, game.currentSector.enemyManager.enemies[x])){
+						if(this.playerSafe){
 						game.currentSector.enemyManager.enemies[x].onHit(10);										
 						this.isActive = false;
+					}
 						}
 					}			
 			}

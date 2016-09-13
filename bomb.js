@@ -14,7 +14,7 @@ function bomb(x, y, orientation, velocity, lifeTime, type, playerSafe, enemySafe
 	this.playerSafe = playerSafe;
 	this.enemySafe = enemySafe;
 
-	this.type = type; //PATCH
+	this.type = type; //PATCH //EXPLODE
 
 	this.state = "FIRED";
 
@@ -39,12 +39,25 @@ function bomb(x, y, orientation, velocity, lifeTime, type, playerSafe, enemySafe
 			this.state = "EXPLODED"
 
 		if(this.state == "EXPLODED"){
-			this.isActive = false;
-			for(var x = 0; x < 20; x++){
+			// if(this.type == "PATCH"){
+			// 	for(var z = 0; z <= game.currentSector.pillars.length; z++){
+			// 		console.log(z);
+			// 		pillar = game.currentSector.pillars[z];
+			// 		 if(pillar.elevation == -1){
+			// 		 	pillars.splice(z, 1);
+			// 		  	z--;
+			// 		}
+			// 	}
+			// }
+			// else{
+				this.isActive = false;
+				for(var x = 0; x < 40; x++){
+						
+					game.currentSector.bulletManager.addBullet(new bullet(this.x + game.common.randInt(-5, 5), this.y + game.common.randInt(-5, 5), game.common.randInt(0, 360), 20, 1.5, 1, this.playerSafe, false, this.color));
 					
-				game.currentSector.bulletManager.addBullet(new bullet(this.x + game.common.randInt(-5, 5), this.y + game.common.randInt(-5, 5), game.common.randInt(0, 360), 10, 2, 1, false, false, this.color));
-				
-			}
+				}	
+			
+			
 
 		}
 		else{

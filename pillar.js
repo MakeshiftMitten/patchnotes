@@ -5,7 +5,7 @@ function pillar(x, y, width, height, elevation){
 	this.height = height;
 	this.elevation = elevation;//0: Kill plane, 1: flyover/cover
 
-	this.addStreamerTimer = .1;
+	this.addStreamerTimer = .3;
 	this.currentAddStreamerTimer = 0;
 
 	this.streamers = [];

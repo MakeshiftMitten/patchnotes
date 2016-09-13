@@ -19,7 +19,7 @@ function gameObject(){
     
     var stockKeyBinds = {
       Common : {
-        SWITCH : 75,
+        SWITCH : 32,
         CAMERA : 67
       },
       //SHIP
@@ -29,6 +29,7 @@ function gameObject(){
         TURNRIGHT : 68,
         TURNLEFT : 65,
         SHOOT : 73,
+        SECONDARY : 75,
         SPECIAL: 16
       },
       //TURNRIGHT
@@ -37,11 +38,12 @@ function gameObject(){
       Bot: {
         ACCEL : 87,
         DECEL : 83,
-        TURNLEFT : 65,
-        TURNRIGHT : 68,
-        STRAFELEFT : 74,
-        STRAFERIGHT : 76,
+        TURNLEFT : 74,
+        TURNRIGHT : 76,
+        STRAFELEFT : 65,
+        STRAFERIGHT : 68,
         SHOOT : 73,
+        SECONDARY : 75,
         SPECIAL : 16
       }
     };
@@ -100,7 +102,7 @@ function gameObject(){
     this.bossDefeated = function(){
         this.bossRoomCount--;
         if(this.bossRoomCount == 0)
-            alert("you're winner");
+            alert("You Defeated the Four Show Stoppers, but can you clear the board? Aim for all safe nodes!");
     }
 
     this.update = function(dt){
@@ -230,6 +232,12 @@ function gameObject(){
 
     this.loadSector = function(x, y){
 
+        if(x < -2 || x > 2 || y < -2 || y > 2){
+            x = 0;
+            y = 0;
+            game.players[0].x = 0;
+            game.players[0].y = 0;
+        }
         this.currentSector = this.getSector(x, y);
         if(this.currentSector == undefined){
             this.sectors[x+Math.floor(this.dimensions/2)][y+Math.floor(this.dimensions/2)] = 
@@ -282,6 +290,7 @@ function gameObject(){
         this.sectors[2][3] = new worldSector(0, 1, this.sectorWidth, this.sectorHeight);
 
         this.sectors[2][2].pillars.push(new pillar(20, -100, 100, 100, -1));                
+
 
         this.sectors[2][2].pillars.push(new pillar(70, 40, 5, 100, 0));        
         this.sectors[2][2].pillars.push(new pillar(-70, 40, 5, 100, 0));
