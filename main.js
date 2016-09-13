@@ -18,7 +18,6 @@ function animLoop() {
 }
 
 
-
 game = new gameObject();
 game.init();
 draw = new drawCameraCentricObject();

@@ -9,7 +9,6 @@ function drawCameraCentricObject(cameraX, cameraY){
             //Bounding Rect    
             //ctx.clearRect(0, 0, gameCanvas.width, gameCanvas.height); 
             draw.drawBackgroundRect(game.gameWidth/2, game.gameHeight/2, game.gameWidth, game.gameHeight, game.colors.Background);
-
             
             this.drawGrid();
 
@@ -28,9 +27,6 @@ function drawCameraCentricObject(cameraX, cameraY){
             for(var p = 0; p < game.players.length; p++){                
                 game.players[p].draw();
             }
-
-            ctx.stroke();    
-            ctx.closePath();
             //Scaling rect 
             ctx.beginPath();
             ctx.fillStyle = "#000000";           
@@ -145,7 +141,7 @@ function drawCameraCentricObject(cameraX, cameraY){
     this.drawGrid = function()
     {
         var ctx = game.ctx;
-        ctx.beginPath();
+
         ctx.strokeStyle = "#00FF00";
         ctx.fillStyle = "#00FF00";
         //(text, gameXToCanvasX(gameX + game.gameWidth/2 - cameraX), gameYToCanvasY(-gameY + game.gameHeight/2 + cameraY))        ;
@@ -156,6 +152,7 @@ function drawCameraCentricObject(cameraX, cameraY){
             ctx.moveTo(gameXToCanvasX(-game.currentSector.width/2 + game.gameWidth/2 - this.cameraX + 400*game.currentSector.x), gameYToCanvasY(x*20 + game.gameHeight/2 + this.cameraY - 400*game.currentSector.y));
             ctx.lineTo(gameXToCanvasX(game.currentSector.width/2 + game.gameWidth/2 - this.cameraX + 400*game.currentSector.x), gameYToCanvasY(x*20 + game.gameHeight/2 + this.cameraY - 400*game.currentSector.y));
             ctx.stroke();
+            ctx.closePath();
         }
         //vertical lines
         for(var x = -game.currentSector.width/40; x <= game.currentSector.width/40; x++){   
@@ -163,6 +160,7 @@ function drawCameraCentricObject(cameraX, cameraY){
             ctx.moveTo(gameXToCanvasX(x*20 + game.gameWidth/2 - this.cameraX + 400*game.currentSector.x), gameYToCanvasY(-game.currentSector.height/2 + game.gameHeight/2 + this.cameraY - 400*game.currentSector.y));
             ctx.lineTo(gameXToCanvasX(x*20 + game.gameWidth/2 - this.cameraX + 400*game.currentSector.x), gameYToCanvasY(game.currentSector.height/2 + game.gameHeight/2 + this.cameraY - 400*game.currentSector.y));
             ctx.stroke();
+            ctx.closePath();
         }
     }
 
@@ -182,35 +180,48 @@ function drawCameraCentricObject(cameraX, cameraY){
         var ctx= game.ctx;// gameCanvas.getContext("2d");   
         var ship = game.players[0];
         ctx.save();
+
+
+        ctx.fillStyle = game.colors.HighBlue;
+        ctx.strokeStyle = game.colors.HighBlue;
+        ctx.style = game.colors.HighBlue;        
+
         ctx.translate(gameXToCanvasX(game.players[0].x + game.gameWidth/2 - this.cameraX ), gameYToCanvasY(-game.players[0].y + game.gameHeight/2 + this.cameraY));
         ctx.rotate(toRad(-orientation+90));
-        ctx.beginPath();
+        //ctx.beginPath();
         if(ship.state=="ship"){
             ctx.beginPath();
                 ctx.moveTo(gameXToCanvasX(0),gameYToCanvasY(-2));
                 ctx.lineTo(gameXToCanvasX(-.5), gameYToCanvasY(2));
                 ctx.lineTo(gameXToCanvasX(.5),gameYToCanvasY(2));
+                ctx.strokeStyle = game.colors.MidBlue;
+                ctx.stroke();
                 ctx.fill();
             ctx.closePath();
+
 
             ctx.beginPath();
                 ctx.moveTo(gameXToCanvasX(0),gameYToCanvasY(-1));
                 ctx.lineTo(gameXToCanvasX(-1), gameYToCanvasY(1));
                 ctx.lineTo(gameXToCanvasX(1),gameYToCanvasY(1));
                 ctx.fill();
+                ctx.strokeStyle = game.colors.MidBlue;
+                ctx.stroke();
             ctx.closePath();
+
         }
         if(ship.state=="bot"){
             ctx.rect(gameXToCanvasX(-ship.width/2 - ship.width), gameYToCanvasY(-ship.height/2), gameXToCanvasX(gameWidth/2), gameYToCanvasY(gameHeight));
             ctx.rect(gameXToCanvasX(ship.width), gameYToCanvasY(-ship.height/2), gameXToCanvasX(gameWidth/2), gameYToCanvasY(gameHeight));
             ctx.rect(gameXToCanvasX(-ship.height/2), gameYToCanvasY(ship.height/8), gameXToCanvasX(ship.height), gameYToCanvasY(ship.width/2));
+            ctx.strokeStyle = game.colors.MidBlue;
             ctx.fill();
         }
-        ctx.closePath();
+        //ctx.closePath();
         ctx.restore();
 
 
-        ctx.stroke();
+        //ctx.stroke();
 
 
     }
@@ -322,6 +333,17 @@ function drawCameraCentricObject(cameraX, cameraY){
         ctx.save();
         ctx.beginPath();
         ctx.fillStyle = "#00FF00";
+        ctx.fillText(text, gameXToCanvasX(gameX), gameYToCanvasY(game.gameHeight - gameY));    
+        ctx.stroke();
+        ctx.restore();
+    }
+
+    this.drawColoredText = function(gameX, gameY, text, color)
+    {
+        var ctx = game.ctx;
+        ctx.save();
+        ctx.beginPath();
+        ctx.fillStyle = color;
         ctx.fillText(text, gameXToCanvasX(gameX), gameYToCanvasY(game.gameHeight - gameY));    
         ctx.stroke();
         ctx.restore();

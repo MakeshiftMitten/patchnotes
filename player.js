@@ -20,8 +20,20 @@ function player(x, y){
     this.maxLife = 100;
     this.currentLife = 100;
     this.lifeRegen = 2;
+
+    this.maxEnergy = 100;
+    this.currentEnergy = 100;
+    this.energyRegen = 1;
+    
     this.shotSpeed = 20;
 
+    this.shipWeapons = [];
+    this.shipSpecialWeapons = [];
+    this.shipSpecialMovements = [];
+
+    this.botWeapons = [];
+    this.botSpecialWeapons = [];
+    this.botSpecialMovements = [];
 
     //cooldowns
     this.swapCooldown = 1;

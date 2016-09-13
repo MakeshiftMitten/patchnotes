@@ -7,9 +7,14 @@ function gameObject(){
     this.sectorHeight = 400;
     this.sectorWidth = 400;
 
+
+
     this.dimensions = 5;
 
     var FloatingInSpace = {"Background":"#000000", "Ship":"#00FF00", "Enemy":"#CEF5FB", "Bomb":"#343A3B", "Well":"#8AAAAF"};
+
+    var Colors = {Background:"#000000", "Ship":"#00FF00", HighBlue: "#0000FF", MidBlue: "#000099", LowBlue: "#000044", HighGreen: "#00FF00", MidGreen: "#009900", LowGreen: "#004400"};
+
     //var FloatingInSpace = {"Background":"#5D6F72", "Ship":"#80CCD8", "Enemy":"#CEF5FB", "Bomb":"#343A3B", "Well":"#8AAAAF"};
     
     var stockKeyBinds = {
@@ -50,7 +55,7 @@ function gameObject(){
     this.menuTimer = this.menuTimerMax;
 
     this.screen = "GAME";
-    this.colors = FloatingInSpace;
+    this.colors = Colors;
     
     //Canvas Context for easy referencing
     this.Canvas = document.getElementById('gameCanvas');
@@ -92,11 +97,17 @@ function gameObject(){
 
     }
 
+    this.bossDefeated = function(){
+        this.bossRoomCount--;
+        if(this.bossRoomCount == 0)
+            alert("you're winner");
+    }
+
     this.update = function(dt){
         this.menuTimer -= dt;
 
         //Handle Menu Switches
-        if(game.keys[1]){
+        if(game.keys[66]){
             if(this.menuTimer < 0){
                 if(this.screen == "MENU"){
                     this.screen = "GAME";
@@ -204,12 +215,15 @@ function gameObject(){
     this.boxes = [];
     this.coordinates = [];
 
+    this.bossRooms = [];
+
     this.currentSector = new worldSector(0, 0);
     this.sectors = [];
 
     this.streamers = [];
 
     this.drawType = "player";
+    this.common = new commonLib();
 
     //this.bulletManager = new bulletManager();
     //this.enemyManager = new enemyManager();
@@ -220,7 +234,9 @@ function gameObject(){
         if(this.currentSector == undefined){
             this.sectors[x+Math.floor(this.dimensions/2)][y+Math.floor(this.dimensions/2)] = 
                     new worldSector(x, y, this.sectorWidth, this.sectorHeight);
+
             this.currentSector = this.sectors[x+Math.floor(this.dimensions/2)][y+Math.floor(this.dimensions/2)];            
+            this.currentSector.generate();
         }
     }
 
@@ -252,9 +268,17 @@ function gameObject(){
 
         }
 
+        this.bossRooms.push([-1, 1]);
+        this.bossRooms.push([-1, -1]);
+        this.bossRooms.push([1, 1]);
+        this.bossRooms.push([1, -1]);
+
+        this.bossRoomCount = 4;
+
         this.currentSector.enemyManager.addEnemy(new followBot(this.players[0].x + 30, this.players[0].y + 60, 1));
 
         this.sectors[2][2] = new worldSector(0, 0, this.sectorWidth, this.sectorHeight);
+        this.sectors[2][2].generate();
         this.sectors[2][3] = new worldSector(0, 1, this.sectorWidth, this.sectorHeight);
 
         this.sectors[2][2].pillars.push(new pillar(20, -100, 100, 100, -1));                
@@ -265,9 +289,9 @@ function gameObject(){
         this.sectors[2][2].pillars.push(new pillar(90, 40, 5, 100, 1));
         this.sectors[2][2].pillars.push(new pillar(-90, 40, 5, 100, 1));
 
-        this.sectors[2][2].enemyManager.addEnemy(new followBot(- 30, 160, 1, "ROCKET"));
-        this.sectors[2][2].enemyManager.addEnemy(new followBot( - 10, 160, 1, "BULLET"));
-        this.sectors[2][2].enemyManager.addEnemy(new followBot(20, 160, 1, "BULLET"));
+        // this.sectors[2][2].enemyManager.addEnemy(new followBot(- 30, 160, 1, "ROCKET"));
+        // this.sectors[2][2].enemyManager.addEnemy(new followBot( - 10, 160, 1, "BULLET"));
+        // this.sectors[2][2].enemyManager.addEnemy(new followBot(20, 160, 1, "BULLET"));
 
 
         this.sectors[2][3].pillars.push(new pillar(70, 440, 5, 100, 0));
