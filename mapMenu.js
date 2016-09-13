@@ -17,28 +17,28 @@ function mapMenu(){
           this.selectedSectionX++;
           this.selectedSectionX +=game.dimensions
           this.selectedSectionX %= game.dimensions;  
-          console.log("map.x: " + this.selectedSectionX + "map.y: " + this.selectedSectionY);
+
           this.currentSwitchTimer = this.switchTimer;
         }
         else if(game.keys[37]){
           this.selectedSectionX--;
           this.selectedSectionX +=game.dimensions
           this.selectedSectionX %= game.dimensions;  
-          console.log("map.x: " + this.selectedSectionX + "map.y: " + this.selectedSectionY);
+
           this.currentSwitchTimer = this.switchTimer;
         }
         else if(game.keys[38]){
           this.selectedSectionY++;
           this.selectedSectionY += game.dimensions;  
           this.selectedSectionY %= game.dimensions;  
-          console.log("map.x: " + this.selectedSectionX + "map.y: " + this.selectedSectionY);
+
           this.currentSwitchTimer = this.switchTimer;
         }
         else if(game.keys[40]){
           this.selectedSectionY--;
           this.selectedSectionY += game.dimensions;  
           this.selectedSectionY %= game.dimensions;  
-          console.log("map.x: " + this.selectedSectionX + "map.y: " + this.selectedSectionY);
+
           this.currentSwitchTimer = this.switchTimer;
         }
         else if(game.keys[13]){          
@@ -48,7 +48,7 @@ function mapMenu(){
             game.players[0].x = (game.currentSector.x*400);
             game.players[0].y = (game.currentSector.y*400);
 
-            console.log(game.currentSector.x-200)*400;
+
             //
             game.screen = "GAME";
           }          

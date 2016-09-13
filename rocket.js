@@ -35,7 +35,6 @@ function rocket(x, y, orientation, velocity, lifeTime, elevation, playerSafe, en
 		if( run < 0)
 			angle += 180;
 
-		console.log(this.orientation+ " " + angle);
 		this.orientation  = angle; //+= (this.orientaion -angle)/2;
 
 		this.currentHomeTimer = 0;

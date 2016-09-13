@@ -21,7 +21,7 @@ function worldSector(x, y, width, height){
 
 		this.bulletManager.update(dt);
 		this.enemyManager.update(dt);
-		console.log(this.enemyManager.enemies.length);
+		
 		if(this.enemyManager.enemies.length == 0){
 			this.level = 0;
 			if(this.bossRoom){

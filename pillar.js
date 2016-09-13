@@ -22,7 +22,7 @@ function pillar(x, y, width, height, elevation){
 	    			for(var z = 0; z < 5; z++){
 	    			var x = game.common.randInt(this.x-this.width/2, this.x + this.width/2);
 	    			var y = game.common.randInt( this.y-this.height/2, this.y + this.height/2);
-	    			console.log(x + " " + y)
+
 	    			this.streamers.push(new bitStreamer(x, y, 0, 0, 2));
 	    			this.currentAddStreamerTimer = 0;
 	    		}

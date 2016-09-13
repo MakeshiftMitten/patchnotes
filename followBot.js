@@ -40,7 +40,7 @@ function followBot(x, y, shotElevation, weapon, boss = false){
 
 	this.update = function(dt){
 
-		console.log(this.boss);
+		
 		this.currentShotTime += dt;
 		if(this.currentShotTime > this.shotTime){
 			this.shoot();

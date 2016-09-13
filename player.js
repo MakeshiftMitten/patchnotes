@@ -70,7 +70,7 @@ function player(x, y){
 
     this.onHit = function(damage){
         this.currentLife -= damage;
-        console.log(this.currentLife);
+        
     }
 
     this.right = function(){return this.x + this.width/2;};

@@ -21,7 +21,7 @@ function drawCameraCentricObject(cameraX, cameraY){
             game.currentSector.enemyManager.draw();
 
             for(var b = 0; b < game.coordinates.length; b++){
-                game.coordinates[b].draw();
+//                game.coordinates[b].draw();
             }
 
             for(var p = 0; p < game.players.length; p++){                
@@ -72,7 +72,7 @@ function drawCameraCentricObject(cameraX, cameraY){
 
             draw.drawText(-40, 220, "Once a zone is clear, you can teleport to it by accessing the map(m), selecting a blue zone, and pressing enter!");
 
-            draw.drawText(-40, 240, "Clear the four bosses, located at 1:1, 1:-1, -1:1, and -1:-1 to beat the game!");
+            draw.drawText(-40, 240, "Clear the four bosses, located at 1:1, 1:-1, -1:1, and -1:-1 to beat the game! Try -1:1 first!");
 
 
 
@@ -135,7 +135,6 @@ function drawCameraCentricObject(cameraX, cameraY){
         var ctx= gameCanvas.getContext("2d");        
 
         //Bounding Rect    
-        console.log("equipment");
         ctx.clearRect(0, 0, gameCanvas.width, gameCanvas.height); 
         draw.drawBackgroundRect(game.gameWidth/2, game.gameHeight/2, game.gameWidth, game.gameHeight, game.colors.Background);     
     }

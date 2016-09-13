@@ -113,11 +113,11 @@ function gameObject(){
             if(this.menuTimer < 0){
                 if(this.screen == "MENU"){
                     this.screen = "GAME";
-                    console.log('toGame');
+
                 }
                 else {
                     this.screen = "MENU";
-                    console.log('toMenu');
+
                 }
                 this.menuTimer = this.menuTimerMax;
             }
@@ -190,12 +190,6 @@ function gameObject(){
         } 
 
         this.currentSector.update(dt);
-
-            // if(game.keys[82]){
-        // console.log("new!");
-        // game = new gameObject();
-        // game.init();
-        // }
     }
            
     

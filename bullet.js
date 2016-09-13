@@ -62,13 +62,13 @@ function bullet(x, y, orientation, velocity, lifeTime, elevation, playerSafe, en
 						if(pointInRectangle(this, game.players[x])){
 							if(this.elevation == 0){
 								if(game.players[x].getElevation() == 0){
-										console.log("HIT");
+
 										this.isActive = false;
 										game.players[x].onHit(10);
 								}
 							}
 							else if(this.elevation == 1){
-									console.log("HIT");
+
 									this.isActive = false;
 									game.players[x].onHit(10);
 								
