@@ -87,9 +87,9 @@ function chaseBot(x, y, shotElevation, weapon){
 		if( run < 0)
 			angle += 180;
 		if(this.weapon == "ROCKET")
-			var pushBullet = new rocket(this.x + 15*Math.cos(toRad(angle)), this.y + 15*Math.sin(toRad(angle)), angle, 15, 3, this.shotElevation, false, true);  //*Math.sin(angle), 
+			var pushBullet = new rocket(this.x + 15*Math.cos(toRad(angle)), this.y + 15*Math.sin(toRad(angle)), angle, 15, 3, this.shotElevation, false, true, "#FF0000");  //*Math.sin(angle), 
 		else if (this.weapon == "BULLET")
-			var pushBullet = new bullet(this.x + 15*Math.cos(toRad(angle)), this.y + 15*Math.sin(toRad(angle)), angle, 25, 3, this.shotElevation,  false, true);  //*Math.sin(angle), 
+			var pushBullet = new bullet(this.x + 15*Math.cos(toRad(angle)), this.y + 15*Math.sin(toRad(angle)), angle, 25, 3, this.shotElevation,  false, true, "#FF0000");  //*Math.sin(angle), 
         game.currentSector.bulletManager.addBullet(pushBullet);
 	}
 

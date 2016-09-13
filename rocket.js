@@ -1,4 +1,4 @@
-function rocket(x, y, orientation, velocity, lifeTime, elevation, playerSafe, enemySafe){	
+function rocket(x, y, orientation, velocity, lifeTime, elevation, playerSafe, enemySafe, color){	
 	this.x = x;
 	this.y = y;
 
@@ -105,6 +105,6 @@ function rocket(x, y, orientation, velocity, lifeTime, elevation, playerSafe, en
 
 	this.draw = function(){
 		if(this.isActive)			
-			draw.drawRectRotatedCentered(this.x, this.y, .50, 2, this.orientation, "#008800", true);						
+			draw.drawRectRotatedCentered(this.x, this.y, .50, 2, this.orientation, "#FF0000", true);						
 	}
 }

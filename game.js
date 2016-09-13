@@ -275,7 +275,7 @@ function gameObject(){
 
         this.bossRoomCount = 4;
 
-        this.currentSector.enemyManager.addEnemy(new followBot(this.players[0].x + 30, this.players[0].y + 60, 1));
+        this.currentSector.enemyManager.addEnemy(new followBot(this.players[0].x + 30, this.players[0].y + 60, 1, "BOMB"));
 
         this.sectors[2][2] = new worldSector(0, 0, this.sectorWidth, this.sectorHeight);
         this.sectors[2][2].generate();

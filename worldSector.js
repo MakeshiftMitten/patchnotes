@@ -39,6 +39,8 @@ function worldSector(x, y, width, height){
 		// 	var y = Math.floor(Math.random() * (400)) - 200;
 		// 	this.enemyManager.addEnemy(new followBot(this.relativeX(x), this.relativeY(y), 1, "ROCKET"));
 		// }
+		if(this.x == 0 && this.y == 0)
+			this.enemyManager.addEnemy(new followBot(this.relativeX(0), this.relativeY(0), 1, "BOMB"));	
 
 		if(this.x < 0 && this.y > 0){
 			if(this.x == game.bossRooms[0][0] && this.y == game.bossRooms[0][1]){

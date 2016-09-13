@@ -1,4 +1,4 @@
-function bullet(x, y, orientation, velocity, lifeTime, elevation, playerSafe, enemySafe){	
+function bullet(x, y, orientation, velocity, lifeTime, elevation, playerSafe, enemySafe, color){	
 	this.x = x;
 	this.y = y;
 
@@ -11,6 +11,13 @@ function bullet(x, y, orientation, velocity, lifeTime, elevation, playerSafe, en
 	this.playerSafe = playerSafe;
 	this.enemySafe = enemySafe;
 
+	this.color = color;
+
+	color = game.common.hex2rgb(color);
+	for(var z = 0; z < color.length; z++)
+		color[z]/=3;
+
+	this.lowColor = game.common.rgb2hex(color[0], color[1], color[2]);
 
 	this.isActive = true;
 
@@ -80,9 +87,9 @@ function bullet(x, y, orientation, velocity, lifeTime, elevation, playerSafe, en
 	this.draw = function(){
 		if(this.isActive)
 			if(this.elevation < game.players[0].getElevation()){
-				draw.drawText(this.x, this.y, "0", "#008800");
+				draw.drawCircle(this.x, this.y, .5, this.lowColor);
 			}
 			else
-				draw.drawText(this.x, this.y, "0", "#00FF00");
+				draw.drawCircle(this.x, this.y, .5, this.color);
 	}
 }
