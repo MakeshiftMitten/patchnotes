@@ -51,11 +51,11 @@ function bomb(x, y, orientation, velocity, lifeTime, type, playerSafe, enemySafe
 			// }
 			// else{
 				this.isActive = false;
-				for(var x = 0; x < 40; x++){
+				// for(var x = 0; x < 40; x++){
 						
-					game.currentSector.bulletManager.addBullet(new bullet(this.x + game.common.randInt(-5, 5), this.y + game.common.randInt(-5, 5), game.common.randInt(0, 360), 20, 1.5, 1, this.playerSafe, false, this.color));
+				// 	game.currentSector.bulletManager.addBullet(new bullet(this.x + game.common.randInt(-5, 5), this.y + game.common.randInt(-5, 5), game.common.randInt(0, 360), 20, 1.5, 1, this.playerSafe, false, this.color));
 					
-				}	
+				// }	
 			
 			
 

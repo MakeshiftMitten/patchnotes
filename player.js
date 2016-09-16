@@ -150,20 +150,24 @@ function player(x, y){
                             this.shoot(this.shotType);
                     }
 
-                    if(game.keys[game.KeyBinds.Bot.SECONDARY]){
+                    //if(game.keys[game.KeyBinds.Bot.SECONDARY]){
                         if(this.shotCooldownCurrent <= 0)
                         //console.log("shoot");
                             this.shoot("BOMB");
-                    }
+                    //}
 
                     this.velStrafe/= 1.3;
                     //A
                     if(game.keys[game.KeyBinds.Ship.TURNLEFT]){
-                        this.orientation+=4;
+                        this.orientation+=2;
+                        if(game.keys[game.KeyBinds.Ship.SPECIAL])
+                                this.orientation+=4;
                     }
                     //D
                     if(game.keys[game.KeyBinds.Ship.TURNRIGHT]){
-                        this.orientation-=4;
+                        this.orientation-=2;
+                        if(game.keys[game.KeyBinds.Ship.SPECIAL])
+                                this.orientation-=4;
                     }
                                 
                     if(game.keys[game.KeyBinds.Ship.ACCEL]){                
@@ -184,8 +188,8 @@ function player(x, y){
                     if(this.velocity < 10)
                         this.velocity += this.accel*dt;
 
-                    if(!game.keys[game.KeyBinds.Ship.SPECIAL])
-                        this.heading = this.orientation;
+                    // if(!game.keys[game.KeyBinds.Ship.SPECIAL])
+                         this.heading = this.orientation;
                 }
                 if(this.state == "bot")
                 {
@@ -373,8 +377,8 @@ function player(x, y){
             this.shotCooldownCurrent  = this.shotCooldown/3;
         }
         else if(shotType == "BOMB"){
-            game.currentSector.bulletManager.addBullet(new bomb(this.x, this.y, this.orientation, this.velocity/2, 1, "EXPLODE", true, true, "#00AAAA"));
-            this.shotCooldownCurrent  = this.shotCooldown*2;
+            game.currentSector.bulletManager.addBullet(new bomb(this.x, this.y, this.orientation, game.keys[game.KeyBinds.Ship.SPECIAL] ?this.velocity/2:0, 1, "EXPLODE", true, true, "#00AAAA"));
+            this.shotCooldownCurrent  = this.shotCooldown/(game.keys[game.KeyBinds.Ship.SPECIAL]&&(game.keys[game.KeyBinds.Ship.TURNLEFT] || game.keys[game.KeyBinds.Ship.TURNRIGHT])?4:2);
         }
         else if(shotType == "BLOCK"){
             game.currentSector.pillars.push(new pillar(this.x + 1 * Math.cos(toRad(this.heading - 90)), this.y + 1 * Math.sin(toRad(this.heading - 90)), 10, 10, 1));
