@@ -115,8 +115,7 @@ Sound: I didn't wind up with sound because of time, but I wound up with the seed
 
 Like I said, based on what I submitted and the feedback I've gotten from players, I already consider this game a 'success' considering what I set out to do. 
 
-<h4>My Goals from Last Year and How They Fared</h4>
-Sound: I think simple sound for the bombs/enemy death could really make them pop. The entries that did sound certainly have a leg up.
+
 
 
 
